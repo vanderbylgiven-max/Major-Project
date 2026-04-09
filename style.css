@@ -12,19 +12,78 @@ body{
 }
 
 /* Navigation Style */
-header{
-    background: #000;
-    color: #fff;
-    padding: 1rem 0;
-}
 
-nav{ 
+
+.navbar a{  
+   list-style-type:none;
+    padding: 0px;
     display: flex;
-    justify-content: space-around;
-    align-items: center;
+    justify-content: left;
+    float: left;
+    text-align: center;
+    padding: 14px 20px;
+    display: flex;
+    align-items:center;
+    color:black;
+    text-decoration:none;
+
 }
 
-nav ul{
-    max-width: 1000px;
-    margin: auto;
+.navbar ul{
+      justify-content:center;
+    padding:0px;
+    margin:0 15px;
+    list-style-type:none;
+    display:flex;
+    background-color:pink;
 }
+.navbar a:hover{
+    background-color:rgb(219, 219, 177)
+}
+/* home-page-bento-box*/
+.grid-container {
+      display: grid;
+      grid-template-rows: 200px 200px ;
+    grid-template-columns: 1fr 1fr ;
+    gap:1em;
+    align-items: 1em;
+    background-color:green;
+    padding: 25px;
+    padding-top: 2em;
+    margin:2em;
+    margin-left: 10em;
+    margin-right: 10em;
+}
+.item1{
+padding: 2em;
+background-color: aqua;
+color: white;
+text-align: centre;
+border-radius: 8px;
+font-size:2rem;
+    }
+    .item2{
+padding: 2em;
+background-color: aqua;
+color: white;
+text-align: centre;
+border-radius: 8px;
+font-size:2rem;
+    }
+    .item3{
+padding: 2em;
+background-color: aqua;
+color: white;
+text-align: centre;
+border-radius: 8px;
+font-size:2rem;
+    }
+    .item4{
+padding: 2em;
+background-color: aqua;
+color: white;
+text-align: centre;
+border-radius: 8px;
+font-size:2rem;
+    };
+    
