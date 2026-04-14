@@ -1,24 +1,33 @@
-/* 
-    NEWS PAGE  KASAMBA REGBERTH  
-*/
+/* LIMKOKWING UNIVERSITY NAMIBIA - FINAL CLEAN VERSION */
 
-/* --- CORE SIZES --- */
+/* --- 1. RESET --- */
 * { 
     margin: 0; 
     padding: 0; 
     box-sizing: border-box; 
 }
 
+:root {
+    --luct-red: #e21f26;
+    --gold: #ffcc00;
+    --dark-bg: #0a0a0a;
+    --glass: rgba(255, 255, 255, 0.05);
+}
+
+/* --- 2. BODY --- */
 body { 
     font-family: 'Inter', sans-serif; 
-    background: #0a0a0a; /* Deep charcoal/black */
+    background: var(--dark-bg); 
     color: #f4f4f4; 
     line-height: 1.5; 
     position: relative;
     overflow-x: hidden;
+    min-height: 100vh;
 }
 
-/* THE MOON - UNDER CONTENT */
+/* --- 3. BACKGROUND EFFECTS --- */
+
+/* 🌕 Moon */
 body::before {
     content: '';
     position: fixed;
@@ -26,15 +35,18 @@ body::before {
     left: -100px; 
     width: 350px;
     height: 350px;
-    background: #ffcc00; /* Barfi Gold */
+    background: var(--gold); 
     border-radius: 50%;
-    box-shadow: 0 0 120px 60px rgba(255, 204, 0, 0.6); 
-    z-index: 0; 
+    box-shadow: 
+        0 0 60px 30px rgba(255, 204, 0, 0.9), 
+        0 0 120px 60px rgba(255, 204, 0, 0.6), 
+        0 0 200px 100px rgba(255, 204, 0, 0.3);
+    z-index: -2; 
     animation: moonPulse 4s ease-in-out infinite;
     pointer-events: none;
 }
 
-/* THE STRAIGHT RAYS - UNDER EVERYTHING */
+/* 🌟 Rays */
 body::after {
     content: '';
     position: fixed;
@@ -45,177 +57,195 @@ body::after {
     background: conic-gradient(
         from 115deg at center,
         transparent 0%,
-        rgba(255, 204, 0, 0.3) 0.2%,
-        transparent 0.4%,
-        transparent 8%,
-        rgba(255, 204, 0, 0.2) 8.2%,
-        transparent 8.4%,
-        transparent 15%,
-        rgba(255, 204, 0, 0.2) 15.3%,
-        transparent 15.6%,
-        transparent 22%,
-        rgba(255, 204, 0, 0.15) 22.1%,
-        transparent 22.3%
+        rgba(255, 204, 0, 0.25) 0.3%,
+        transparent 0.6%,
+        transparent 10%,
+        rgba(255, 204, 0, 0.15) 10.3%,
+        transparent 10.6%
     );
-    filter: blur(0px); 
-    z-index: -1; 
+    z-index: -3; /* ✅ FIX: push further behind */
     pointer-events: none;
 }
 
-.container { 
-    max-width: 1000px; 
-    margin: 0 auto; 
-    padding: 20px; 
-    position: relative; 
-    z-index: 5; /* Keeps content above light effects */
-}
-
-/* --- NAVIGATION --- */
-.main-header { 
-    background: #000;
-    padding: 10px 0; 
-    border-bottom: 3px solid #ff0000; 
-    position: relative;
-    z-index: 100;
-}
-
+/* --- 4. NAVBAR --- */
 .navbar { 
     display: flex; 
     justify-content: space-between; 
     align-items: center; 
-    max-width: 1000px; 
+    max-width: 1200px; 
     margin: 0 auto; 
-    padding: 0 20px; 
+    padding: 20px;
+    background: rgba(0, 0, 0, 0.95);
+    border-bottom: 3px solid var(--luct-red);
+    position: sticky;
+    top: 0;
+    z-index: 1000;
 }
 
-.logo { color: #fff; font-weight: 800; font-size: 1.2rem; text-transform: uppercase; }
-.logo span { color: #ff0000; } 
-.nav-links { list-style: none; display: flex; gap: 20px; }
-.nav-links a { color: #fff; text-decoration: none; font-size: 0.9rem; font-weight: 600; }
-.nav-links a:hover, .nav-links a.active { color: #ff0000; }
+.logo { 
+    color: #fff; 
+    font-weight: 800; 
+    font-size: 1.2rem; 
+    text-transform: uppercase; 
+}
 
-/* --- BREAKING NEWS BAR (RED) --- */
+.logo span { 
+    color: var(--luct-red); 
+    margin-left: 5px; 
+}
+
+.navbar ul { 
+    list-style: none; 
+    display: flex; 
+    gap: 20px; /* ✅ improved spacing */
+}
+
+.navbar ul li a { 
+    color: #fff; 
+    text-decoration: none; 
+    font-size: 0.9rem; 
+    font-weight: 600; 
+    transition: 0.3s; 
+}
+
+.navbar ul li a:hover, 
+.navbar ul li a.active { 
+    color: var(--luct-red); 
+}
+
+/* --- 5. BREAKING NEWS --- */
 .breaking-news-bar {
     display: flex;
-    align-items: center;
     background: #000;
     height: 50px;
+    border-bottom: 2px solid var(--luct-red);
     overflow: hidden;
-    border-bottom: 2px solid #ff0000; 
-    position: relative;
-    z-index: 10;
+    position: relative; /* ✅ FIX */
 }
 
 .ticker-label {
-    background: #ff0000; 
+    background: var(--luct-red);
     color: #fff;
     padding: 0 25px;
-    height: 100%;
     display: flex;
     align-items: center;
     font-weight: 800;
-    font-size: 0.9rem;
+    font-size: 0.85rem;
     box-shadow: 10px 0 15px rgba(0,0,0,0.5);
 }
 
-.ticker-window { flex: 1; overflow: hidden; background: #111; height: 100%; display: flex; align-items: center; }
-.ticker-track span { color: #fff; font-size: 0.95rem; padding-right: 100px; }
-
-@keyframes ticker-scroll {
-    0% { transform: translateX(0); }
-    100% { transform: translateX(-50%); }
-}
-.ticker-track { display: flex; white-space: nowrap; animation: ticker-scroll 30s linear infinite; }
-
-/* --- INTRO & VIDEO ALIGNMENT --- */
-.page-intro { 
-    text-align: center; 
-    margin-top: 150px; 
-    margin-bottom: 50px; 
-}
-
-.page-intro h1 { font-size: 2.2rem; color: #fff; text-shadow: 2px 2px 15px rgba(0,0,0,1); }
-.page-intro p { color: #999; }
-
-.video-container { 
-    display: flex; 
-    justify-content: center; 
-    margin-bottom: 60px; 
-}
-
-.video-box { 
-    width: 100%; 
-    max-width: 700px; 
-    aspect-ratio: 16/9; 
-    border-radius: 12px; 
+.ticker-window { 
+    flex: 1; 
     overflow: hidden; 
-    box-shadow: 0 20px 60px rgba(0,0,0,0.9); 
-    border: 1px solid #222;
+    display: flex; 
+    align-items: center; 
 }
 
-.video-box iframe { width: 100%; height: 100%; }
+.ticker-track {
+    display: flex;
+    white-space: nowrap;
+    animation: tv-scroll 25s linear infinite;
+    will-change: transform; /* ✅ performance fix */
+}
 
-/* --- NEWS GRID & CARDS --- */
+.ticker-track span {
+    padding-right: 100px;
+    color: #fff;
+    font-size: 0.95rem;
+}
+
+/* --- 6. CONTENT --- */
+.container, 
+.content-container { 
+    max-width: 1100px; 
+    margin: 40px auto; 
+    padding: 20px; 
+    position: relative; 
+    z-index: 5; 
+}
+
+/* --- ABOUT --- */
+.about-banner, 
+.news-card {
+    background: var(--glass);
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 12px;
+}
+
+/* ✅ FIX: responsive layout */
+.vision-mission {
+    display: flex;
+    gap: 20px;
+    flex-wrap: wrap;
+}
+
+.vision-mission .box {
+    flex: 1 1 300px;
+    background: var(--glass);
+    padding: 25px;
+    border-left: 5px solid var(--luct-red);
+    border-radius: 8px;
+}
+
+/* --- NEWS --- */
 .news-grid { 
     display: grid; 
     grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); 
-    gap: 30px; 
+    gap: 25px; 
 }
 
 .news-card { 
-    background: rgba(30, 30, 30, 0.9); /* High contrast dark cards */
-    backdrop-filter: blur(10px); 
-    border: 1px solid #333; 
-    border-radius: 12px; 
     overflow: hidden; 
-    transition: all 0.3s ease;
+    transition: 0.3s; 
 }
 
-.news-card:hover {
-    transform: translateY(-8px);
-    border-color: #ff0000;
-    background: rgba(45, 45, 45, 1);
+.news-card:hover { 
+    transform: translateY(-8px); 
+    border-color: var(--luct-red); 
 }
 
 .card-img { 
-    height: 180px; 
+    height: 200px; 
     background-size: cover; 
     background-position: center; 
-    border-bottom: 2px solid #ff0000;
 }
 
-/* LOCAL IMAGE PATHS */
-.img-1 { background-image: url('news-journalism.jpg'); }
-.img-2 { background-image: url('news-lab.jpg'); }
-.img-3 { background-image: url('news-it.jpg'); }
-.img-4 { background-image: url('news-vr.jpg'); }
-.img-5 { background-image: url('news-awards.jpg'); }
+.card-content { 
+    padding: 25px; 
+}
 
-.label { font-size: 0.75rem; color: #ff0000; font-weight: bold; text-transform: uppercase; }
-.card-content h3 { font-size: 1.2rem; margin: 8px 0; color: #fff; }
-.card-content p { font-size: 0.95rem; color: #ccc; }
+.label { 
+    color: var(--luct-red); 
+    font-weight: bold; 
+    font-size: 0.75rem; 
+    text-transform: uppercase; 
+}
 
+/* --- BUTTON --- */
 .btn { 
-    margin-top: 20px; 
-    padding: 12px 25px; 
-    background: #ff0000; 
+    display: inline-block;
+    padding: 10px 22px; 
+    background: var(--luct-red); 
     color: #fff; 
-    border: none; 
+    text-decoration: none;
     border-radius: 4px; 
-    cursor: pointer; 
     font-weight: bold;
-    text-transform: uppercase;
+    cursor: pointer;
+    transition: 0.3s;
 }
 
-.btn:hover { background: #fff; color: #ff0000; }
+.btn:hover { 
+    background: #fff; 
+    color: var(--luct-red); 
+}
 
 /* --- FOOTER --- */
 footer { 
     text-align: center; 
-    padding: 30px; 
+    padding: 40px; 
     background: #000; 
     color: #444; 
-    margin-top: 60px; 
     border-top: 1px solid #222;
 }
 
@@ -223,10 +253,15 @@ footer {
 @keyframes moonPulse {
     0%, 100% { 
         transform: scale(1); 
-        box-shadow: 0 0 100px 40px rgba(255, 204, 0, 0.5); 
+        opacity: 0.7; 
     }
     50% { 
-        transform: scale(1.03); 
-        box-shadow: 0 0 160px 80px rgba(255, 204, 0, 0.7); 
+        transform: scale(1.05); 
+        opacity: 1; 
     }
+}
+
+@keyframes tv-scroll {
+    from { transform: translateX(0); }
+    to { transform: translateX(-50%); }
 }
