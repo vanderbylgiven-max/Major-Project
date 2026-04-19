@@ -55,12 +55,13 @@ body{
     margin-right: 10em;
 }
 .item1{
-padding: 2em;
-background-color: aqua;
+display: flex;
+padding: 1.5em;
 color: white;
 text-align: centre;
 border-radius: 8px;
 font-size:2rem;
+gap: var(--gap-size);
     }
     .item2{
 padding: 2em;
