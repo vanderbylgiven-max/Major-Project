@@ -3,14 +3,15 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Home | Limkokwing University Namibia</title>
+    <title>News & Updates | Limkokwing Namibia</title>
     <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=swap" rel="stylesheet">
 </head>
 <body>
-    <header>
-        <div class="navbar">
-            <div class="logo">LUCT Namibia</div>
-            <ul>
+    <header class="main-header">
+        <nav class="navbar">
+            <div class="logo">LUCT <span>Namibia</span></div>
+            <ul class="nav-links">
                 <li><a href="index.html">Home</a></li>
                 <li><a href="about.html">About Us</a></li>
                 <li><a href="courses.html">Courses</a></li>
@@ -19,13 +20,108 @@
                 <li><a href="studentlife.html">Student Life</a></li>
                 <li><a href="news.html">News</a></li>
                 <li><a href="contact.html">Contact Us</a></li>
-            </ul>
-        </nav>
-    </div>
+            </ul> </nav>
     </header>
 
-      <footer>
+    <div class="breaking-news-bar">
+        <div class="ticker-label">BREAKING NEWS</div>
+        <div class="ticker-window">
+            <div class="ticker-track">
+                <span>🔥 Registration for Semester 2 is now open! Visit the Windhoek campus today.</span>
+                <span>📢 New AI Workshop at the Innovation Hub - June 15th, 2026.</span>
+                <span>🏆 LUCT Namibia wins "Creative Campus of the Year" at National Tech Awards!</span>
+                <span>🎓 Winter Graduation 2026: Venue and dates officially confirmed.</span>
+                <span>🔥 Registration for Semester 2 is now open! Visit the Windhoek campus today.</span>
+                <span>📢 New AI Workshop at the Innovation Hub - June 15th, 2026.</span>
+            </div>
+        </div>
+    </div>
+
+    <main class="container">
+        <section class="page-intro">
+            <h1>Campus News</h1>
+            <p>Latest updates from the heart of Namibia's creative hub.</p>
+        </section>
+
+        <section class="video-container">
+            <div class="video-box">
+                <iframe src="https://www.youtube.com/embed/3b5G48Tx1c8" frameborder="0" allowfullscreen></iframe>
+            </div>
+        </section>
+
+        <section class="news-grid">
+            <article class="news-card">
+                <div class="card-img img-1"></div>
+                <div class="card-content">
+                    <span class="label">Academic</span>
+                    <h3>Broadcasting Accreditation 2028</h3>
+                    <p>The BA in Journalism has received its official extension from the NCHE.</p>
+                    <div id="m1" class="more-info"><p>This ensures our graduates continue to meet national broadcasting standards for the next 3 years.</p></div>
+                    <button class="btn" onclick="toggle('m1', this)">Read More</button>
+                </div>
+            </article>
+
+            <article class="news-card">
+                <div class="card-img img-2"></div>
+                <div class="card-content">
+                    <span class="label">Vocational</span>
+                    <h3>Official NTA Provider Status</h3>
+                    <p>Now certified to offer Level 2-4 ICT Vocational Certificates in Namibia.</p>
+                    <div id="m2" class="more-info"><p>Valid until 2028, these programs focus on practical web development and system support.</p></div>
+                    <button class="btn" onclick="toggle('m2', this)">Read More</button>
+                </div>
+            </article>
+
+            <article class="news-card">
+                <div class="card-img img-3"></div>
+                <div class="card-content">
+                    <span class="label">Technology</span>
+                    <h3>BSc in IT Extension</h3>
+                    <p>The NQA has certified our IT program through June 2030.</p>
+                    <div id="m3" class="more-info"><p>The curriculum now includes advanced 2026 modules in AI and Cloud Architecture.</p></div>
+                    <button class="btn" onclick="toggle('m3', this)">Read More</button>
+                </div>
+            </article>
+
+            <article class="news-card">
+                <div class="card-img img-1"></div>
+                <div class="card-content">
+                    <span class="label">Impact</span>
+                    <h3>UNESCO Digital Heritage</h3>
+                    <p>Students are documenting Namibia's heritage sites using 360-degree VR.</p>
+                    <div id="m4" class="more-info"><p>This project aims to preserve historical landmarks in a virtual digital archive for schools.</p></div>
+                    <button class="btn" onclick="toggle('m4', this)">Read More</button>
+                </div>
+            </article>
+
+            <article class="news-card">
+                <div class="card-img img-2"></div>
+                <div class="card-content">
+                    <span class="label">Awards</span>
+                    <h3>National Innovation Winners</h3>
+                    <p>Three Limkokwing teams took top spots at the Namibia Tech Summit.</p>
+                    <div id="m5" class="more-info"><p>The winning projects focused on mobile health solutions and e-governance tools.</p></div>
+                    <button class="btn" onclick="toggle('m5', this)">Read More</button>
+                </div>
+            </article>
+        </section>
+    </main>
+
+    <footer>
         <p>&copy; 2026 Limkokwing University Namibia - Group Project</p>
     </footer>
+
+    <script>
+        function toggle(id, b) {
+            let e = document.getElementById(id);
+            if(e.style.display === "block") {
+                e.style.display = "none";
+                b.innerText = "Read More";
+            } else {
+                e.style.display = "block";
+                b.innerText = "Show Less";
+            }
+        }
+    </script>
 </body>
 </html>
