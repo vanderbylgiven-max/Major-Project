@@ -5,48 +5,56 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Login page | Limkokwing University Namibia</title>
     <link rel="stylesheet" href="style.css">
-    
-    
 </head>
+
 <body>
-     <header>
-        <div class="navbar">
-            <div class="logo">LUCT Namibia</div>
-            <ul>
-                <li><a href="index.html">Home</a></li>
-                <li><a href="about.html">About Us</a></li>
-                <li><a href="courses.html">Courses</a></li>
-                <li><a href="admissions.html">Admissions</a></li>
-                <li><a href="faculties.html">Departments</a></li>
-                <li><a href="studentlife.html">Student Life</a></li>
-                <li><a href="news.html">News</a></li>
-                <li><a href="contact.html">Contact Us</a></li>
-                <li><a href="login.html">Login</a></li>
-            </ul>
-        </nav>
+
+<header>
+    <nav class="navbar">
+        <div class="logo">LUCT Namibia</div>
+
+        <ul>
+            <li><a href="index.html">Home</a></li>
+            <li><a href="about.html">About Us</a></li>
+            <li><a href="courses.html">Courses</a></li>
+            <li><a href="admissions.html">Admissions</a></li>
+            <li><a href="faculties.html">Departments</a></li>
+            <li><a href="studentlife.html">Student Life</a></li>
+            <li><a href="news.html">News</a></li>
+            <li><a href="contact.html">Contact Us</a></li>
+            <li><a href="login.html">Login</a></li>
+        </ul>
+    </nav>
+</header>
+
+<main class="container">
+
+    <section class="visitor-report section">
+        <div class="visitor-report-wrap">
+            <h2>People who visited the news page in Namibia</h2>
+            <p>Download the visitor list collected from the news page form.</p>
+
+            <button class="btn" id="downloadVisitorsBtn" type="button">
+                Download Visitor List
+            </button>
         </div>
-    </header>
+    </section>
 
-    <main class="container">
-        <section class="visitor-report section">
-            <div class="visitor-report-wrap">
-                <h2>People who visited the news page at Namibia</h2>
-                <p>Download the visitor list collected from the news page form and save it as an Excel-compatible file.</p>
-                <button class="btn" id="downloadVisitorsBtn" type="button">People who visited the news page at the Namibia</button>
-            </div>
-        </section>
-    </main>
+</main>
 
-      <footer>
-        <p>&copy; 2026 Limkokwing University Namibia - Group Project</p>
-    </footer>
+<footer>
+    <p>&copy; 2026 Limkokwing University Namibia - Group Project</p>
+</footer>
 
 <script src="script.js"></script>
+
 <script>
-    const downloadVisitorsBtn = document.getElementById('downloadVisitorsBtn');
-    if (downloadVisitorsBtn) {
-        downloadVisitorsBtn.addEventListener('click', downloadVisitorList);
-    }
+const downloadVisitorsBtn = document.getElementById('downloadVisitorsBtn');
+
+if (downloadVisitorsBtn) {
+    downloadVisitorsBtn.addEventListener('click', downloadVisitorList);
+}
 </script>
+
 </body>
 </html>

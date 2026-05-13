@@ -64,3 +64,26 @@ function resetForm() {
     document.getElementById('appForm').style.pointerEvents = 'auto';
     document.querySelector('.form-actions').style.display = 'flex';
 }
+
+function downloadVisitorList() {
+    const name = localStorage.getItem("visitorName");
+    const age = localStorage.getItem("visitorAge");
+
+    if (!name || !age) {
+        alert("No visitor data found from the news page.");
+        return;
+    }
+
+    const csv = "Name,Age\n" + name + "," + age;
+
+    const blob = new Blob([csv], { type: "text/csv" });
+
+    const link = document.createElement("a");
+    link.href = URL.createObjectURL(blob);
+    link.download = "visitor_list.csv";
+
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+}
+

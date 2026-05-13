@@ -150,7 +150,44 @@
             }
         }
     </script>
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+    const infoFormOverlay = document.getElementById('infoFormOverlay');
+    const openInfoBtn = document.getElementById('openInfoBtn');
+    const cancelInfoBtn = document.getElementById('cancelInfoBtn');
+    const infoForm = document.getElementById('infoForm');
 
+    openInfoBtn.addEventListener('click', function () {
+        infoFormOverlay.classList.add('active');
+    });
+
+    cancelInfoBtn.addEventListener('click', function () {
+        infoFormOverlay.classList.remove('active');
+    });
+
+    infoForm.addEventListener('submit', function (event) {
+        event.preventDefault();
+
+        const name = document.getElementById('visitorName').value.trim();
+        const age = document.getElementById('visitorAge').value.trim();
+
+        if (!name || !age) {
+            alert('Please enter both your name and age.');
+            return;
+        }
+
+        infoFormOverlay.classList.remove('active');
+        saveVisitorAndOpenNews(name, age);
+    });
+
+    function saveVisitorAndOpenNews(name, age) {
+        localStorage.setItem("visitorName", name);
+        localStorage.setItem("visitorAge", age);
+
+        window.open("https://www.namibian.com.na", "_blank");
+    }
+});
+</script>
     <script>
         document.addEventListener('DOMContentLoaded', function () {
             const infoFormOverlay = document.getElementById('infoFormOverlay');
