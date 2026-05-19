@@ -20,6 +20,7 @@
                 <li><a href="studentlife.html">Student Life</a></li>
                 <li><a href="news.html">News</a></li>
                 <li><a href="contact.html">Contact Us</a></li>
+                <li><a href="login.html">Login</a></li>
             </ul> </nav>
     </header>
 
@@ -84,7 +85,7 @@
             </article>
 
             <article class="news-card">
-                <div class="card-img img-1"></div>
+                <div class="card-img img-7"></div>
                 <div class="card-content">
                     <span class="label">Impact</span>
                     <h3>UNESCO Digital Heritage</h3>
@@ -95,7 +96,7 @@
             </article>
 
             <article class="news-card">
-                <div class="card-img img-2"></div>
+                <div class="card-img img-6"></div>
                 <div class="card-content">
                     <span class="label">Awards</span>
                     <h3>National Innovation Winners</h3>
@@ -104,6 +105,32 @@
                     <button class="btn" onclick="toggle('m5', this)">Read More</button>
                 </div>
             </article>
+        </section>
+
+        <section class="more-news section">
+            <div class="more-news-wrap">
+                <p>Want more current Namibian headlines?</p>
+                <button class="btn" id="openInfoBtn" type="button">Open Namibian News</button>
+            </div>
+
+            <div class="info-form-overlay" id="infoFormOverlay">
+                <div class="info-form-card">
+                    <h3>Please enter your name and age</h3>
+                    <p>This helps us keep record before opening the news link.</p>
+                    <form id="infoForm">
+                        <label for="visitorName">Name</label>
+                        <input type="text" id="visitorName" name="visitorName" placeholder="Your name" required>
+
+                        <label for="visitorAge">Age</label>
+                        <input type="number" id="visitorAge" name="visitorAge" min="10" max="120" placeholder="Your age" required>
+
+                        <div class="form-actions">
+                            <button type="button" class="btn btn-outline" id="cancelInfoBtn">Cancel</button>
+                            <button type="submit" class="btn">Submit</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
         </section>
     </main>
 
@@ -123,5 +150,76 @@
             }
         }
     </script>
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+    const infoFormOverlay = document.getElementById('infoFormOverlay');
+    const openInfoBtn = document.getElementById('openInfoBtn');
+    const cancelInfoBtn = document.getElementById('cancelInfoBtn');
+    const infoForm = document.getElementById('infoForm');
+
+    openInfoBtn.addEventListener('click', function () {
+        infoFormOverlay.classList.add('active');
+    });
+
+    cancelInfoBtn.addEventListener('click', function () {
+        infoFormOverlay.classList.remove('active');
+    });
+
+    infoForm.addEventListener('submit', function (event) {
+        event.preventDefault();
+
+        const name = document.getElementById('visitorName').value.trim();
+        const age = document.getElementById('visitorAge').value.trim();
+
+        if (!name || !age) {
+            alert('Please enter both your name and age.');
+            return;
+        }
+
+        infoFormOverlay.classList.remove('active');
+        saveVisitorAndOpenNews(name, age);
+    });
+
+    function saveVisitorAndOpenNews(name, age) {
+        localStorage.setItem("visitorName", name);
+        localStorage.setItem("visitorAge", age);
+
+        window.open("https://www.namibian.com.na", "_blank");
+    }
+});
+</script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const infoFormOverlay = document.getElementById('infoFormOverlay');
+            const openInfoBtn = document.getElementById('openInfoBtn');
+            const cancelInfoBtn = document.getElementById('cancelInfoBtn');
+            const infoForm = document.getElementById('infoForm');
+
+            openInfoBtn.addEventListener('click', function () {
+                infoFormOverlay.classList.add('active');
+            });
+
+            cancelInfoBtn.addEventListener('click', function () {
+                infoFormOverlay.classList.remove('active');
+            });
+
+            infoForm.addEventListener('submit', function (event) {
+                event.preventDefault();
+
+                const name = document.getElementById('visitorName').value.trim();
+                const age = document.getElementById('visitorAge').value.trim();
+
+                if (!name || !age) {
+                    alert('Please enter both your name and age.');
+                    return;
+                }
+
+                infoFormOverlay.classList.remove('active');
+                saveVisitorAndOpenNews(name, age);
+            });
+        });
+    </script>
+
+<script src="script.js"></script>
 </body>
 </html>
