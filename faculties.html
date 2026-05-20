@@ -1,29 +1,219 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Home | Limkokwing University Namibia</title>
-    <link rel="stylesheet" href="style.css">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Departments | LUCT Namibia</title>
+
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: Arial, sans-serif;
+    }
+
+    body {
+      background: linear-gradient(rgba(0,0,0,.92), rgba(0,0,0,.95)), url("bg.jpg");
+      background-size: cover;
+      color: white;
+    }
+
+    /* NAVBAR */
+    nav {
+      background: black;
+      padding: 25px 60px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      border-bottom: 3px solid red;
+    }
+
+    .logo {
+      font-size: 34px;
+      font-weight: bold;
+    }
+
+    nav ul {
+      display: flex;
+      list-style: none;
+      gap: 35px;
+    }
+
+    nav a {
+      color: white;
+      text-decoration: none;
+      font-weight: bold;
+    }
+
+    nav a:hover {
+      color: gold;
+    }
+
+    /* HERO */
+    .hero {
+      padding: 80px 20px;
+      text-align: center;
+    }
+
+    .hero h1 {
+      font-size: 55px;
+      color: gold;
+      margin-bottom: 15px;
+    }
+
+    .hero p {
+      color: #ddd;
+    }
+
+    /* GRID */
+    .departments {
+      padding: 60px;
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 35px;
+    }
+
+    /* CARD */
+    .card {
+      background: rgba(15,15,15,.95);
+      padding: 35px;
+      border-radius: 12px;
+      border: 1px solid #222;
+      transition: .4s;
+    }
+
+    .card:hover {
+      transform: translateY(-10px);
+      border-color: red;
+      box-shadow: 0 0 30px rgba(255,0,0,.5);
+    }
+
+    .card h2 {
+      color: gold;
+      margin-bottom: 20px;
+    }
+
+    .card p {
+      line-height: 1.7;
+      color: #ddd;
+      margin-bottom: 30px;
+    }
+
+    .btn {
+      display: inline-block;
+      padding: 12px 28px;
+      background: red;
+      border-radius: 8px;
+      color: white;
+      text-decoration: none;
+      font-weight: bold;
+    }
+
+    .btn:hover {
+      background: gold;
+      color: black;
+    }
+
+    /* FOOTER */
+    footer {
+      margin-top: 40px;
+      padding: 30px;
+      text-align: center;
+      background: black;
+      border-top: 2px solid red;
+    }
+
+    /* RESPONSIVE */
+    @media (max-width: 900px) {
+      nav {
+        flex-direction: column;
+        gap: 20px;
+      }
+
+      nav ul {
+        flex-wrap: wrap;
+        justify-content: center;
+      }
+
+      .hero h1 {
+        font-size: 38px;
+      }
+
+      .departments {
+        padding: 20px;
+      }
+    }
+  </style>
 </head>
+
 <body>
-    <header>
-        <div class="navbar">
-            <div class="logo">LUCT Namibia</div>
-            <ul>
-                <li><a href="index.html">Home</a></li>
-                <li><a href="about.html">About Us</a></li>
-                <li><a href="courses.html">Courses</a></li>
-                <li><a href="admissions.html">Admissions</a></li>
-                <li><a href="faculties.html">Departments</a></li>
-                <li><a href="studentlife.html">Student Life</a></li>
-                <li><a href="news.html">News</a></li>
-                <li><a href="contact.html">Contact Us</a></li>
-                <li><a href="login.html">Login</a></li>
-            </ul>
-        </nav>
-        </div>
-    </header>
+
+  <!-- ✅ NAV is now properly opened AND closed -->
+  <nav>
+    <div class="logo">LUCT NAMIBIA</div>
+    <ul>
+      <li><a href="index.html">Home</a></li>
+      <li><a href="about.html">About Us</a></li>
+      <li><a href="courses.html">Courses</a></li>
+      <li><a href="admissions.html">Admissions</a></li>
+      <li><a href="faculties.html">Departments</a></li>
+      <li><a href="studentlife.html">Student Life</a></li>
+      <li><a href="news.html">News</a></li>
+      <li><a href="contact.html">Contact Us</a></li>
+      <li><a href="login.html">Login</a></li>
+    </ul>
+  </nav>
+  <!-- ✅ </nav> closing tag was missing in the original -->
+
+  <!-- ✅ Hero and sections are now properly inside <body> -->
+  <section class="hero">
+    <h1>Departments</h1>
+    <p>Explore our academic faculties and future career paths.</p>
+  </section>
+
+  <section class="departments">
+
+    <div class="card">
+      <h2>Faculty of Business</h2>
+      <p>Business Administration, Marketing, Accounting and Entrepreneurship.</p>
+      <a class="btn" href="business.html">Explore</a>
+    </div>
+
+    <div class="card">
+      <h2>Faculty of Information Technology</h2>
+      <p>Software Engineering, Networking and Cyber Security.</p>
+      <a class="btn" href="it.html">Explore</a>
+    </div>
+
+    <div class="card">
+      <h2>Faculty of Communication</h2>
+      <p>Media Studies and Digital Communication.</p>
+      <a class="btn" href="communication.html">Explore</a>
+    </div>
+
+    <div class="card">
+      <h2>Faculty of Design Innovation</h2>
+      <p>Graphic Design, Multimedia and Animation.</p>
+      <a class="btn" href="design.html">Explore</a>
+    </div>
+
+    <div class="card">
+      <h2>Faculty of Architecture</h2>
+      <p>Architecture and Interior Design.</p>
+      <a class="btn" href="architecture.html">Explore</a>
+    </div>
+
+    <div class="card">
+      <h2>Faculty of Hospitality</h2>
+      <p>Tourism, Hotel and Event Management.</p>
+      <a class="btn" href="hospitality.html">Explore</a>
+    </div>
+
+  </section>
+
+
 
       <footer>
         <p>&copy; 2026 Limkokwing University Namibia - Group Project</p>
