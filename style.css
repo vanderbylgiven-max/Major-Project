@@ -1,8 +1,11 @@
 
 /* =============================================
    LIMKOKWING UNIVERSITY NAMIBIA — MASTER STYLESHEET
-   Base: Eli's layout (zip) | Added: Admissions + Student Life pages
+   Updated: Consistent typography (Syne + DM Sans) across all pages
    ============================================= */
+
+/* --- 0. FONTS (loaded here so every page gets them via style.css) --- */
+@import url('https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700;1,9..40,300&display=swap');
 
 /* --- 1. RESET --- */
 * { 
@@ -21,11 +24,15 @@
     --text:         #f4f4f4;
     --muted:        #aaaaaa;
     --border:       rgba(255, 255, 255, 0.1);
+
+    /* New typography tokens */
+    --font-display: 'Syne', 'Inter', sans-serif;
+    --font-body:    'DM Sans', 'Inter', sans-serif;
 }
 
-/* --- 3. BODY --- */
+/* --- 3. BODY & GLOBAL TYPOGRAPHY --- */
 body { 
-    font-family: 'Inter', sans-serif; 
+    font-family: var(--font-body); 
     background: var(--dark-bg); 
     color: #f4f4f4; 
     line-height: 1.5; 
@@ -34,9 +41,19 @@ body {
     min-height: 100vh;
 }
 
-/* --- 4. BACKGROUND EFFECTS --- */
+/* All headings use Syne site-wide — no per-page override needed */
+h1, h2, h3, h4, h5, h6 {
+    font-family: var(--font-display);
+    font-weight: 700;
+    line-height: 1.2;
+}
 
-/* Moon */
+/* Body copy always DM Sans */
+p, li, label, input, select, textarea, button, a {
+    font-family: var(--font-body);
+}
+
+/* --- 4. BACKGROUND EFFECTS --- */
 body::before {
     content: '';
     position: fixed;
@@ -55,7 +72,6 @@ body::before {
     pointer-events: none;
 }
 
-/* Rays */
 body::after {
     content: '';
     position: fixed;
@@ -91,16 +107,21 @@ body::after {
     z-index: 1000;
 }
 
+/* Logo — identical on every page: Syne 800, uppercase, red accent */
 .logo { 
+    font-family: var(--font-display);
     color: #fff; 
     font-weight: 800; 
-    font-size: 1.2rem; 
-    text-transform: uppercase; 
+    font-size: 1.15rem;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    text-decoration: none;
+    user-select: none;
 }
 
 .logo span { 
     color: var(--luct-red); 
-    margin-left: 5px; 
+    margin-left: 4px; 
 }
 
 .navbar ul { 
@@ -200,6 +221,7 @@ body::after {
 }
 
 .section-title {
+    font-family: var(--font-display);
     font-size: 1.6rem;
     font-weight: 800;
     color: var(--gold);
@@ -340,6 +362,7 @@ body::after {
 }
 
 .hero h1 {
+    font-family: var(--font-display);
     font-size: 3rem;
     color: var(--gold);
     margin-bottom: 15px;
@@ -394,6 +417,14 @@ body::after {
 .btn-outline:hover {
     background: var(--luct-red);
     color: #fff;
+}
+
+/* Small button variant */
+.btn-sm {
+    padding: 7px 16px;
+    font-size: 0.82rem;
+    border-radius: 6px;
+    font-weight: 600;
 }
 
 /* --- 12. BADGES --- */
@@ -471,6 +502,7 @@ footer p + p {
 .contact-hero::before {
     content: 'CONTACT';
     position: absolute;
+    font-family: var(--font-display);
     font-size: 9rem;
     font-weight: 800;
     color: rgba(255, 255, 255, 0.025);
@@ -492,6 +524,7 @@ footer p + p {
 }
 
 .contact-hero h1 {
+    font-family: var(--font-display);
     font-size: 3rem;
     font-weight: 800;
     color: #fff;
@@ -593,6 +626,7 @@ footer p + p {
 }
 
 .contact-form-wrap h2 {
+    font-family: var(--font-display);
     color: #fff;
     font-size: 1.5rem;
     font-weight: 800;
@@ -634,7 +668,7 @@ footer p + p {
     border-radius: 8px;
     padding: 12px 16px;
     color: #f4f4f4;
-    font-family: 'Inter', sans-serif;
+    font-family: var(--font-body);
     font-size: 0.9rem;
     transition: border-color 0.3s, background 0.3s;
     outline: none;
@@ -694,6 +728,7 @@ footer p + p {
 }
 
 .map-label h2 {
+    font-family: var(--font-display);
     color: #fff;
     font-size: 1.5rem;
     font-weight: 800;
@@ -756,6 +791,7 @@ footer p + p {
 }
 
 .step-card h3 {
+    font-family: var(--font-display);
     font-size: 1rem;
     font-weight: 700;
     margin-bottom: 0.4rem;
@@ -787,6 +823,7 @@ footer p + p {
 }
 
 .req-box h3 {
+    font-family: var(--font-display);
     font-size: 1rem;
     font-weight: 700;
     color: var(--gold);
@@ -820,6 +857,7 @@ footer p + p {
     color: #fff;
     padding: 0.9rem 1.2rem;
     text-align: left;
+    font-family: var(--font-display);
     font-size: 0.9rem;
     font-weight: 700;
     text-transform: uppercase;
@@ -872,7 +910,7 @@ textarea {
     border: 1px solid rgba(255, 255, 255, 0.15);
     border-radius: 6px;
     font-size: 0.93rem;
-    font-family: inherit;
+    font-family: var(--font-body);
     background: rgba(255, 255, 255, 0.06);
     color: var(--text);
     transition: border-color 0.2s, background 0.2s;
@@ -937,6 +975,7 @@ textarea {
 }
 
 .download-info h3 {
+    font-family: var(--font-display);
     font-size: 1rem;
     font-weight: 700;
     color: var(--gold);
@@ -948,7 +987,37 @@ textarea {
     color: var(--muted);
 }
 
-/* --- 17. STUDENT LIFE PAGE --- */
+/* --- 17. DEPARTMENTS PAGE --- */
+.dept-card {
+    background: var(--glass);
+    backdrop-filter: blur(10px);
+    border: 1px solid var(--glass-border);
+    border-left: 4px solid var(--luct-red);
+    border-radius: 12px;
+    padding: 35px;
+    transition: transform 0.3s, border-color 0.3s, box-shadow 0.3s;
+}
+
+.dept-card:hover {
+    transform: translateY(-8px);
+    border-color: var(--luct-red);
+    box-shadow: 0 0 30px rgba(226, 31, 38, 0.25);
+}
+
+.dept-card h2 {
+    font-size: 1.15rem;
+    color: var(--gold);
+    margin-bottom: 12px;
+}
+
+.dept-card p {
+    color: var(--muted);
+    font-size: 0.92rem;
+    line-height: 1.7;
+    margin-bottom: 24px;
+}
+
+/* --- 18. STUDENT LIFE PAGE --- */
 .clubs-grid {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
@@ -978,6 +1047,7 @@ textarea {
 }
 
 .club-card h3 {
+    font-family: var(--font-display);
     font-size: 1rem;
     font-weight: 700;
     margin-bottom: 0.35rem;
@@ -1035,6 +1105,7 @@ textarea {
 }
 
 .event-date .day {
+    font-family: var(--font-display);
     font-size: 1.4rem;
     font-weight: 800;
     line-height: 1;
@@ -1048,6 +1119,7 @@ textarea {
 }
 
 .event-info h3 {
+    font-family: var(--font-display);
     font-size: 1rem;
     font-weight: 700;
     margin-bottom: 0.2rem;
@@ -1100,6 +1172,7 @@ textarea {
 }
 
 .sport-card h3 {
+    font-family: var(--font-display);
     font-size: 0.92rem;
     font-weight: 700;
     margin-bottom: 0.2rem;
@@ -1171,6 +1244,7 @@ textarea {
 }
 
 .support-card h3 {
+    font-family: var(--font-display);
     font-size: 0.97rem;
     font-weight: 700;
     margin-bottom: 0.35rem;
