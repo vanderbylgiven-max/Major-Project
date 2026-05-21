@@ -1,86 +1,966 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Home | Limkokwing University Namibia</title>
+    <title>Courses | Limkokwing University Namibia</title>
     <link rel="stylesheet" href="style.css">
+    <style>
+        /* ── COURSES PAGE EXTRAS — fonts & base come from style.css ── */
+        /* COURSES HERO */
+        .courses-hero {
+            padding: 100px 20px 80px;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+            border-bottom: 2px solid var(--luct-red);
+        }
+        .courses-hero::before {
+            content: 'COURSES';
+            position: absolute;
+            font-family: 'Syne', sans-serif;
+            font-size: clamp(5rem, 18vw, 13rem);
+            font-weight: 800;
+            color: rgba(255,255,255,0.022);
+            top: 50%; left: 50%;
+            transform: translate(-50%, -50%);
+            pointer-events: none;
+            white-space: nowrap;
+            letter-spacing: 0.08em;
+        }
+        .courses-hero .hero-eyebrow {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            color: var(--luct-red);
+            font-size: 0.72rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.2em;
+            margin-bottom: 18px;
+        }
+        .courses-hero .hero-eyebrow::before,
+        .courses-hero .hero-eyebrow::after {
+            content: '';
+            width: 28px; height: 1px;
+            background: var(--luct-red);
+        }
+        .courses-hero h1 {
+            font-family: 'Syne', sans-serif;
+            font-size: clamp(2.2rem, 5vw, 3.8rem);
+            font-weight: 800;
+            color: #fff;
+            line-height: 1.1;
+            margin-bottom: 16px;
+        }
+        .courses-hero h1 em {
+            font-style: normal;
+            color: var(--gold);
+            display: block;
+        }
+        .courses-hero p {
+            color: var(--muted);
+            font-size: 1.05rem;
+            max-width: 560px;
+            margin: 0 auto 32px;
+            line-height: 1.75;
+        }
+        .hero-stats {
+            display: flex;
+            justify-content: center;
+            gap: 3rem;
+            flex-wrap: wrap;
+            margin-top: 40px;
+        }
+        .hero-stat { text-align: center; }
+        .hero-stat .num {
+            font-family: 'Syne', sans-serif;
+            font-size: 2.2rem;
+            font-weight: 800;
+            color: var(--gold);
+            line-height: 1;
+        }
+        .hero-stat .lbl {
+            font-size: 0.78rem;
+            color: var(--muted);
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            margin-top: 4px;
+        }
+        .hero-stat-divider {
+            width: 1px; height: 48px;
+            background: rgba(255,255,255,0.1);
+            align-self: center;
+        }
+
+        /* FILTER BAR */
+        .filter-bar {
+            max-width: 1100px;
+            margin: 48px auto 0;
+            padding: 0 20px;
+        }
+        .filter-bar h2 {
+            font-family: 'Syne', sans-serif;
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: #fff;
+            margin-bottom: 20px;
+        }
+        .filter-tabs {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+            margin-bottom: 36px;
+        }
+        .filter-tab {
+            padding: 8px 20px;
+            border-radius: 40px;
+            border: 1.5px solid rgba(255,255,255,0.12);
+            background: transparent;
+            color: var(--muted);
+            font-family: 'DM Sans', sans-serif;
+            font-size: 0.88rem;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.25s;
+        }
+        .filter-tab:hover { border-color: var(--luct-red); color: #fff; }
+        .filter-tab.active {
+            background: var(--luct-red);
+            border-color: var(--luct-red);
+            color: #fff;
+            font-weight: 700;
+        }
+
+        /* PROGRAMMES */
+        .programs-section {
+            max-width: 1100px;
+            margin: 0 auto 80px;
+            padding: 0 20px;
+        }
+        .faculty-block { margin-bottom: 60px; }
+        .faculty-header {
+            display: flex;
+            align-items: center;
+            gap: 14px;
+            margin-bottom: 24px;
+            padding-bottom: 16px;
+            border-bottom: 1px solid rgba(255,255,255,0.07);
+        }
+        .faculty-icon {
+            width: 48px; height: 48px;
+            border-radius: 12px;
+            background: var(--luct-red);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.4rem;
+            flex-shrink: 0;
+        }
+        .faculty-header h2 {
+            font-family: 'Syne', sans-serif;
+            font-size: 1.3rem;
+            font-weight: 700;
+            color: #fff;
+        }
+        .faculty-header p { font-size: 0.85rem; color: var(--muted); margin-top: 2px; }
+        .course-count {
+            margin-left: auto;
+            font-size: 0.78rem;
+            font-weight: 600;
+            color: var(--luct-red);
+            background: rgba(226,31,38,0.1);
+            border: 1px solid rgba(226,31,38,0.3);
+            padding: 3px 12px;
+            border-radius: 20px;
+            white-space: nowrap;
+        }
+
+        /* COURSE CARDS */
+        .courses-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 18px;
+        }
+        .course-card {
+            background: var(--glass);
+            backdrop-filter: blur(12px);
+            border: 1px solid var(--glass-border);
+            border-radius: 14px;
+            padding: 24px;
+            display: flex;
+            flex-direction: column;
+            gap: 14px;
+            transition: transform 0.3s, border-color 0.3s, box-shadow 0.3s;
+            position: relative;
+            overflow: hidden;
+        }
+        .course-card::before {
+            content: '';
+            position: absolute;
+            top: 0; left: 0; right: 0;
+            height: 3px;
+            background: linear-gradient(90deg, var(--luct-red), var(--gold));
+            opacity: 0;
+            transition: opacity 0.3s;
+        }
+        .course-card:hover {
+            transform: translateY(-5px);
+            border-color: rgba(226,31,38,0.35);
+            box-shadow: 0 12px 40px rgba(0,0,0,0.4), 0 0 0 1px rgba(226,31,38,0.15);
+        }
+        .course-card:hover::before { opacity: 1; }
+        .card-top {
+            display: flex;
+            align-items: flex-start;
+            justify-content: space-between;
+            gap: 10px;
+        }
+        .course-level {
+            font-size: 0.72rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.12em;
+            padding: 3px 10px;
+            border-radius: 20px;
+            white-space: nowrap;
+        }
+        .level-degree  { background: rgba(255,204,0,0.12);   color: var(--gold);  border: 1px solid rgba(255,204,0,0.3); }
+        .level-diploma { background: rgba(100,160,255,0.12); color: #7ab8ff;       border: 1px solid rgba(100,160,255,0.3); }
+        .level-cert    { background: rgba(255,160,60,0.12);  color: #ffaa40;       border: 1px solid rgba(255,160,60,0.3); }
+
+        .course-card h3 {
+            font-family: 'Syne', sans-serif;
+            font-size: 1.05rem;
+            font-weight: 700;
+            color: #fff;
+            line-height: 1.35;
+        }
+        .course-card p {
+            font-size: 0.875rem;
+            color: var(--muted);
+            line-height: 1.65;
+            flex: 1;
+        }
+        .card-meta {
+            display: flex;
+            gap: 16px;
+            padding-top: 12px;
+            border-top: 1px solid rgba(255,255,255,0.06);
+            flex-wrap: wrap;
+        }
+        .meta-item {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            font-size: 0.78rem;
+            color: var(--muted);
+        }
+        .card-actions { display: flex; gap: 10px; margin-top: 4px; }
+        .btn-sm {
+            padding: 7px 16px;
+            font-size: 0.82rem;
+            border-radius: 6px;
+            font-weight: 600;
+        }
+
+        /* OVERVIEW TABLE */
+        .duration-section {
+            max-width: 1100px;
+            margin: 0 auto 80px;
+            padding: 0 20px;
+        }
+        .duration-section .section-title { font-family: 'Syne', sans-serif; }
+
+        /* REQUIREMENTS BAND */
+        .requirements-band {
+            background: rgba(226,31,38,0.06);
+            border-top: 1px solid rgba(226,31,38,0.2);
+            border-bottom: 1px solid rgba(226,31,38,0.2);
+            padding: 60px 20px;
+            position: relative;
+            z-index: 5;
+        }
+        .requirements-band .inner { max-width: 1100px; margin: 0 auto; }
+        .req-cards {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            gap: 18px;
+            margin-top: 28px;
+        }
+        .req-card {
+            background: rgba(0,0,0,0.4);
+            border: 1px solid rgba(255,255,255,0.07);
+            border-radius: 12px;
+            padding: 24px;
+            position: relative;
+            overflow: hidden;
+        }
+        .req-card::after {
+            content: attr(data-type);
+            position: absolute;
+            bottom: -10px; right: -8px;
+            font-family: 'Syne', sans-serif;
+            font-size: 3.5rem;
+            font-weight: 800;
+            color: rgba(255,255,255,0.025);
+            pointer-events: none;
+            line-height: 1;
+        }
+        .req-card h3 {
+            font-family: 'Syne', sans-serif;
+            font-size: 1rem; font-weight: 700;
+            color: var(--gold); margin-bottom: 6px;
+        }
+        .req-card .points {
+            font-family: 'Syne', sans-serif;
+            font-size: 2.4rem; font-weight: 800;
+            color: #fff; line-height: 1; margin-bottom: 8px;
+        }
+        .req-card .points span { font-size: 1rem; font-weight: 400; color: var(--muted); }
+        .req-card ul { padding: 0; list-style: none; margin-top: 12px; }
+        .req-card li {
+            font-size: 0.85rem; color: var(--muted);
+            padding: 4px 0 4px 16px; position: relative;
+        }
+        .req-card li::before { content: '→'; position: absolute; left: 0; color: var(--luct-red); font-size: 0.75rem; }
+
+        /* CTA STRIP */
+        .cta-strip { max-width: 1100px; margin: 60px auto; padding: 0 20px; }
+        .cta-box {
+            background: linear-gradient(135deg, rgba(226,31,38,0.15) 0%, rgba(255,204,0,0.05) 100%);
+            border: 1px solid rgba(226,31,38,0.3);
+            border-radius: 16px;
+            padding: 48px 40px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 30px;
+            flex-wrap: wrap;
+            position: relative;
+            overflow: hidden;
+        }
+        .cta-box::before {
+            content: '';
+            position: absolute; inset: 0;
+            background: radial-gradient(circle at 80% 50%, rgba(255,204,0,0.05) 0%, transparent 60%);
+            pointer-events: none;
+        }
+        .cta-box h2 {
+            font-family: 'Syne', sans-serif;
+            font-size: 1.7rem; font-weight: 800;
+            color: #fff; margin-bottom: 8px;
+        }
+        .cta-box p { color: var(--muted); font-size: 0.95rem; max-width: 420px; }
+        .cta-btns { display: flex; gap: 12px; flex-wrap: wrap; flex-shrink: 0; }
+
+        @media (max-width: 768px) {
+            .hero-stat-divider { display: none; }
+            .hero-stats { gap: 1.5rem; }
+            .courses-grid { grid-template-columns: 1fr; }
+            .cta-box { text-align: center; justify-content: center; }
+            .cta-btns { justify-content: center; }
+        }
+    </style>
 </head>
 <body>
+
+    <!-- NAVBAR -->
     <header>
-        <div class="navbar">
-            <div class="logo">LUCT Namibia</div>
-            <ul>
+        <nav class="navbar">
+            <div class="logo">LUCT <span>Namibia</span></div>
+            <ul id="navLinks">
                 <li><a href="index.html">Home</a></li>
                 <li><a href="about.html">About Us</a></li>
-                <li><a href="courses.html">Courses</a></li>
+                <li><a href="courses.html" class="active">Courses</a></li>
                 <li><a href="admissions.html">Admissions</a></li>
                 <li><a href="faculties.html">Departments</a></li>
                 <li><a href="studentlife.html">Student Life</a></li>
                 <li><a href="news.html">News</a></li>
-                <li><a href="contact.html">Contact Us</a></li>
+                <li><a href="contact.html">Contact</a></li>
                 <li><a href="login.html">Login</a></li>
             </ul>
+            <div class="hamburger" id="hamburger">
+                <span></span><span></span><span></span>
+            </div>
         </nav>
-        </div>
     </header>
-<h1>Academic Programs & Admission Requirements</h1>
 
-    <section>
-        <h2>1. List of Programs Offered</h2>
-        <ul>
-            <li><strong>Computing:</strong> Software Development, Cyber Security</li>
-            <li><strong>Education:</strong> Geography and English Specializations</li>
-            <li><strong>Commerce:</strong> Accounting, Business Administration</li>
-            <li><strong>Natural Sciences:</strong> Environmental Science, Biology</li>
-        </ul>
+    <!-- BREAKING NEWS -->
+    <div class="breaking-news-bar">
+        <div class="ticker-label">📢 LATEST</div>
+        <div class="ticker-window">
+            <div class="ticker-track">
+                <span>Applications for 2026 are now open — Apply before 30 June 2026 &nbsp;|&nbsp;</span>
+                <span>New Cyber Security programme launching Semester 2 &nbsp;|&nbsp;</span>
+                <span>LUCT Namibia ranked among top institutions in Southern Africa &nbsp;|&nbsp;</span>
+                <span>Scholarship opportunities available for qualifying students &nbsp;|&nbsp;</span>
+                <span>Applications for 2026 are now open — Apply before 30 June 2026 &nbsp;|&nbsp;</span>
+                <span>New Cyber Security programme launching Semester 2 &nbsp;|&nbsp;</span>
+                <span>LUCT Namibia ranked among top institutions in Southern Africa &nbsp;|&nbsp;</span>
+                <span>Scholarship opportunities available for qualifying students &nbsp;|&nbsp;</span>
+            </div>
+        </div>
+    </div>
+
+    <!-- HERO -->
+    <section class="courses-hero">
+        <div class="hero-eyebrow">Academic Programmes 2026</div>
+        <h1>Shape Your Future with<em>World-Class Education</em></h1>
+        <p>Explore our industry-aligned programmes across 6 faculties — designed to launch careers in business, technology, design, communication, and more.</p>
+        <a href="admissions.html" class="btn">Apply Now</a>
+        <a href="#programmes" class="btn btn-outline" style="margin-left:12px;">Browse Programmes</a>
+        <div class="hero-stats">
+            <div class="hero-stat"><div class="num">6</div><div class="lbl">Faculties</div></div>
+            <div class="hero-stat-divider"></div>
+            <div class="hero-stat"><div class="num">18+</div><div class="lbl">Programmes</div></div>
+            <div class="hero-stat-divider"></div>
+            <div class="hero-stat"><div class="num">3</div><div class="lbl">Qualification Levels</div></div>
+            <div class="hero-stat-divider"></div>
+            <div class="hero-stat"><div class="num">2026</div><div class="lbl">Intake Open</div></div>
+        </div>
     </section>
 
-    <section>
-        <h2>2. Course Descriptions and Duration</h2>
-        <table border="1">
+    <!-- FILTER BAR -->
+    <div class="filter-bar" id="programmes">
+        <h2>All Programmes</h2>
+        <div class="filter-tabs">
+            <button class="filter-tab active" data-filter="all">All Programmes</button>
+            <button class="filter-tab" data-filter="business">Business</button>
+            <button class="filter-tab" data-filter="it">Information Technology</button>
+            <button class="filter-tab" data-filter="communication">Communication</button>
+            <button class="filter-tab" data-filter="design">Design Innovation</button>
+            <button class="filter-tab" data-filter="architecture">Architecture</button>
+            <button class="filter-tab" data-filter="hospitality">Hospitality</button>
+            <button class="filter-tab" data-filter="degree">Degree</button>
+            <button class="filter-tab" data-filter="diploma">Diploma</button>
+            <button class="filter-tab" data-filter="certificate">Certificate</button>
+        </div>
+    </div>
+
+    <!-- PROGRAMMES -->
+    <div class="programs-section">
+
+        <!-- Faculty of Business -->
+        <div class="faculty-block" data-faculty="business">
+            <div class="faculty-header">
+                <div class="faculty-icon">📊</div>
+                <div>
+                    <h2>Faculty of Business</h2>
+                    <p>Business Administration, Marketing, Accounting and Entrepreneurship</p>
+                </div>
+                <span class="course-count">3 Programmes</span>
+            </div>
+            <div class="courses-grid">
+                <div class="course-card" data-faculty="business" data-level="degree">
+                    <div class="card-top">
+                        <h3>Bachelor of Business Administration</h3>
+                        <span class="course-level level-degree">Degree</span>
+                    </div>
+                    <p>Develop leadership, strategic thinking, and entrepreneurial skills with modules in marketing, human resources, operations, and business law.</p>
+                    <div class="card-meta">
+                        <div class="meta-item"><span>🕐</span> 3 Years</div>
+                        <div class="meta-item"><span>📍</span> Full-time</div>
+                        <div class="meta-item"><span>✅</span> NQF Level 7</div>
+                    </div>
+                    <div class="card-actions">
+                        <a href="admissions.html" class="btn btn-sm">Apply</a>
+                        <a href="faculties.html" class="btn btn-outline btn-sm">Learn More</a>
+                    </div>
+                </div>
+                <div class="course-card" data-faculty="business" data-level="degree">
+                    <div class="card-top">
+                        <h3>Bachelor of Commerce in Accounting</h3>
+                        <span class="course-level level-degree">Degree</span>
+                    </div>
+                    <p>Master financial reporting, auditing, taxation, and management accounting — a pathway to professional qualifications like ICAG and ACCA.</p>
+                    <div class="card-meta">
+                        <div class="meta-item"><span>🕐</span> 3 Years</div>
+                        <div class="meta-item"><span>📍</span> Full-time</div>
+                        <div class="meta-item"><span>✅</span> NQF Level 7</div>
+                    </div>
+                    <div class="card-actions">
+                        <a href="admissions.html" class="btn btn-sm">Apply</a>
+                        <a href="faculties.html" class="btn btn-outline btn-sm">Learn More</a>
+                    </div>
+                </div>
+                <div class="course-card" data-faculty="business" data-level="diploma">
+                    <div class="card-top">
+                        <h3>Diploma in Marketing Management</h3>
+                        <span class="course-level level-diploma">Diploma</span>
+                    </div>
+                    <p>Build practical skills in digital marketing, consumer behaviour, brand management, and market research for today's competitive business landscape.</p>
+                    <div class="card-meta">
+                        <div class="meta-item"><span>🕐</span> 2 Years</div>
+                        <div class="meta-item"><span>📍</span> Full-time</div>
+                        <div class="meta-item"><span>✅</span> NQF Level 6</div>
+                    </div>
+                    <div class="card-actions">
+                        <a href="admissions.html" class="btn btn-sm">Apply</a>
+                        <a href="faculties.html" class="btn btn-outline btn-sm">Learn More</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Faculty of Information Technology -->
+        <div class="faculty-block" data-faculty="it">
+            <div class="faculty-header">
+                <div class="faculty-icon">💻</div>
+                <div>
+                    <h2>Faculty of Information Technology</h2>
+                    <p>Software Engineering, Networking and Cyber Security</p>
+                </div>
+                <span class="course-count">3 Programmes</span>
+            </div>
+            <div class="courses-grid">
+                <div class="course-card" data-faculty="it" data-level="degree">
+                    <div class="card-top">
+                        <h3>Bachelor of Science in Software Engineering</h3>
+                        <span class="course-level level-degree">Degree</span>
+                    </div>
+                    <p>Build full-stack applications, learn agile methodologies, data structures, algorithms, and modern software development practices.</p>
+                    <div class="card-meta">
+                        <div class="meta-item"><span>🕐</span> 4 Years</div>
+                        <div class="meta-item"><span>📍</span> Full-time</div>
+                        <div class="meta-item"><span>✅</span> NQF Level 7</div>
+                    </div>
+                    <div class="card-actions">
+                        <a href="admissions.html" class="btn btn-sm">Apply</a>
+                        <a href="faculties.html" class="btn btn-outline btn-sm">Learn More</a>
+                    </div>
+                </div>
+                <div class="course-card" data-faculty="it" data-level="degree">
+                    <div class="card-top">
+                        <h3>Bachelor of Science in Cyber Security</h3>
+                        <span class="course-level level-degree">Degree</span>
+                    </div>
+                    <p>Master ethical hacking, network defence, digital forensics, and information security management to protect organisations in the digital age.</p>
+                    <div class="card-meta">
+                        <div class="meta-item"><span>🕐</span> 4 Years</div>
+                        <div class="meta-item"><span>📍</span> Full-time</div>
+                        <div class="meta-item"><span>✅</span> NQF Level 7</div>
+                    </div>
+                    <div class="card-actions">
+                        <a href="admissions.html" class="btn btn-sm">Apply</a>
+                        <a href="faculties.html" class="btn btn-outline btn-sm">Learn More</a>
+                    </div>
+                </div>
+                <div class="course-card" data-faculty="it" data-level="diploma">
+                    <div class="card-top">
+                        <h3>Diploma in Networking & Systems</h3>
+                        <span class="course-level level-diploma">Diploma</span>
+                    </div>
+                    <p>Hands-on training in network administration, server management, cloud infrastructure, and IT support for enterprise environments.</p>
+                    <div class="card-meta">
+                        <div class="meta-item"><span>🕐</span> 3 Years</div>
+                        <div class="meta-item"><span>📍</span> Full-time</div>
+                        <div class="meta-item"><span>✅</span> NQF Level 6</div>
+                    </div>
+                    <div class="card-actions">
+                        <a href="admissions.html" class="btn btn-sm">Apply</a>
+                        <a href="faculties.html" class="btn btn-outline btn-sm">Learn More</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Faculty of Communication -->
+        <div class="faculty-block" data-faculty="communication">
+            <div class="faculty-header">
+                <div class="faculty-icon">🎙️</div>
+                <div>
+                    <h2>Faculty of Communication</h2>
+                    <p>Media Studies and Digital Communication</p>
+                </div>
+                <span class="course-count">3 Programmes</span>
+            </div>
+            <div class="courses-grid">
+                <div class="course-card" data-faculty="communication" data-level="degree">
+                    <div class="card-top">
+                        <h3>Bachelor of Communication Studies</h3>
+                        <span class="course-level level-degree">Degree</span>
+                    </div>
+                    <p>Develop expertise in journalism, public relations, media production, and digital storytelling for a rapidly evolving communications industry.</p>
+                    <div class="card-meta">
+                        <div class="meta-item"><span>🕐</span> 3 Years</div>
+                        <div class="meta-item"><span>📍</span> Full-time</div>
+                        <div class="meta-item"><span>✅</span> NQF Level 7</div>
+                    </div>
+                    <div class="card-actions">
+                        <a href="admissions.html" class="btn btn-sm">Apply</a>
+                        <a href="faculties.html" class="btn btn-outline btn-sm">Learn More</a>
+                    </div>
+                </div>
+                <div class="course-card" data-faculty="communication" data-level="degree">
+                    <div class="card-top">
+                        <h3>Bachelor of Digital Media Production</h3>
+                        <span class="course-level level-degree">Degree</span>
+                    </div>
+                    <p>Combine creative storytelling with technical production skills — covering video, audio, podcasting, social media content, and broadcast media.</p>
+                    <div class="card-meta">
+                        <div class="meta-item"><span>🕐</span> 3 Years</div>
+                        <div class="meta-item"><span>📍</span> Full-time</div>
+                        <div class="meta-item"><span>✅</span> NQF Level 7</div>
+                    </div>
+                    <div class="card-actions">
+                        <a href="admissions.html" class="btn btn-sm">Apply</a>
+                        <a href="faculties.html" class="btn btn-outline btn-sm">Learn More</a>
+                    </div>
+                </div>
+                <div class="course-card" data-faculty="communication" data-level="diploma">
+                    <div class="card-top">
+                        <h3>Diploma in Public Relations</h3>
+                        <span class="course-level level-diploma">Diploma</span>
+                    </div>
+                    <p>Learn crisis communication, brand management, event coordination, and stakeholder engagement for corporate and government environments.</p>
+                    <div class="card-meta">
+                        <div class="meta-item"><span>🕐</span> 2 Years</div>
+                        <div class="meta-item"><span>📍</span> Full-time</div>
+                        <div class="meta-item"><span>✅</span> NQF Level 6</div>
+                    </div>
+                    <div class="card-actions">
+                        <a href="admissions.html" class="btn btn-sm">Apply</a>
+                        <a href="faculties.html" class="btn btn-outline btn-sm">Learn More</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Faculty of Design Innovation -->
+        <div class="faculty-block" data-faculty="design">
+            <div class="faculty-header">
+                <div class="faculty-icon">🎨</div>
+                <div>
+                    <h2>Faculty of Design Innovation</h2>
+                    <p>Graphic Design, Multimedia and Animation</p>
+                </div>
+                <span class="course-count">3 Programmes</span>
+            </div>
+            <div class="courses-grid">
+                <div class="course-card" data-faculty="design" data-level="degree">
+                    <div class="card-top">
+                        <h3>Bachelor of Graphic Design</h3>
+                        <span class="course-level level-degree">Degree</span>
+                    </div>
+                    <p>Master typography, branding, UX/UI design, print, and digital media production using industry-standard tools like Adobe Creative Suite.</p>
+                    <div class="card-meta">
+                        <div class="meta-item"><span>🕐</span> 3 Years</div>
+                        <div class="meta-item"><span>📍</span> Full-time</div>
+                        <div class="meta-item"><span>✅</span> NQF Level 7</div>
+                    </div>
+                    <div class="card-actions">
+                        <a href="admissions.html" class="btn btn-sm">Apply</a>
+                        <a href="faculties.html" class="btn btn-outline btn-sm">Learn More</a>
+                    </div>
+                </div>
+                <div class="course-card" data-faculty="design" data-level="degree">
+                    <div class="card-top">
+                        <h3>Bachelor of Multimedia & Animation</h3>
+                        <span class="course-level level-degree">Degree</span>
+                    </div>
+                    <p>Bring ideas to life through 2D/3D animation, motion graphics, visual effects, and interactive media for film, gaming, and advertising industries.</p>
+                    <div class="card-meta">
+                        <div class="meta-item"><span>🕐</span> 3 Years</div>
+                        <div class="meta-item"><span>📍</span> Full-time</div>
+                        <div class="meta-item"><span>✅</span> NQF Level 7</div>
+                    </div>
+                    <div class="card-actions">
+                        <a href="admissions.html" class="btn btn-sm">Apply</a>
+                        <a href="faculties.html" class="btn btn-outline btn-sm">Learn More</a>
+                    </div>
+                </div>
+                <div class="course-card" data-faculty="design" data-level="certificate">
+                    <div class="card-top">
+                        <h3>Certificate in Digital Design Fundamentals</h3>
+                        <span class="course-level level-cert">Certificate</span>
+                    </div>
+                    <p>An intensive introduction to design principles, digital tools, colour theory, and layout — perfect for creatives entering the design field.</p>
+                    <div class="card-meta">
+                        <div class="meta-item"><span>🕐</span> 1 Year</div>
+                        <div class="meta-item"><span>📍</span> Full-time</div>
+                        <div class="meta-item"><span>✅</span> NQF Level 5</div>
+                    </div>
+                    <div class="card-actions">
+                        <a href="admissions.html" class="btn btn-sm">Apply</a>
+                        <a href="faculties.html" class="btn btn-outline btn-sm">Learn More</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Faculty of Architecture -->
+        <div class="faculty-block" data-faculty="architecture">
+            <div class="faculty-header">
+                <div class="faculty-icon">🏛️</div>
+                <div>
+                    <h2>Faculty of Architecture</h2>
+                    <p>Architecture and Interior Design</p>
+                </div>
+                <span class="course-count">3 Programmes</span>
+            </div>
+            <div class="courses-grid">
+                <div class="course-card" data-faculty="architecture" data-level="degree">
+                    <div class="card-top">
+                        <h3>Bachelor of Architecture</h3>
+                        <span class="course-level level-degree">Degree</span>
+                    </div>
+                    <p>Develop design thinking, technical drawing, structural knowledge, and sustainable building practices for Namibia's growing construction sector.</p>
+                    <div class="card-meta">
+                        <div class="meta-item"><span>🕐</span> 4 Years</div>
+                        <div class="meta-item"><span>📍</span> Full-time</div>
+                        <div class="meta-item"><span>✅</span> NQF Level 7</div>
+                    </div>
+                    <div class="card-actions">
+                        <a href="admissions.html" class="btn btn-sm">Apply</a>
+                        <a href="faculties.html" class="btn btn-outline btn-sm">Learn More</a>
+                    </div>
+                </div>
+                <div class="course-card" data-faculty="architecture" data-level="degree">
+                    <div class="card-top">
+                        <h3>Bachelor of Interior Design</h3>
+                        <span class="course-level level-degree">Degree</span>
+                    </div>
+                    <p>Study spatial design, materials, lighting, furniture specification, and project management for residential and commercial interior environments.</p>
+                    <div class="card-meta">
+                        <div class="meta-item"><span>🕐</span> 3 Years</div>
+                        <div class="meta-item"><span>📍</span> Full-time</div>
+                        <div class="meta-item"><span>✅</span> NQF Level 7</div>
+                    </div>
+                    <div class="card-actions">
+                        <a href="admissions.html" class="btn btn-sm">Apply</a>
+                        <a href="faculties.html" class="btn btn-outline btn-sm">Learn More</a>
+                    </div>
+                </div>
+                <div class="course-card" data-faculty="architecture" data-level="diploma">
+                    <div class="card-top">
+                        <h3>Diploma in Architectural Technology</h3>
+                        <span class="course-level level-diploma">Diploma</span>
+                    </div>
+                    <p>Practical training in AutoCAD, building regulations, construction methods, and technical drawing for architectural support roles.</p>
+                    <div class="card-meta">
+                        <div class="meta-item"><span>🕐</span> 2 Years</div>
+                        <div class="meta-item"><span>📍</span> Full-time</div>
+                        <div class="meta-item"><span>✅</span> NQF Level 6</div>
+                    </div>
+                    <div class="card-actions">
+                        <a href="admissions.html" class="btn btn-sm">Apply</a>
+                        <a href="faculties.html" class="btn btn-outline btn-sm">Learn More</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Faculty of Hospitality -->
+        <div class="faculty-block" data-faculty="hospitality">
+            <div class="faculty-header">
+                <div class="faculty-icon">🏨</div>
+                <div>
+                    <h2>Faculty of Hospitality</h2>
+                    <p>Tourism, Hotel and Event Management</p>
+                </div>
+                <span class="course-count">3 Programmes</span>
+            </div>
+            <div class="courses-grid">
+                <div class="course-card" data-faculty="hospitality" data-level="degree">
+                    <div class="card-top">
+                        <h3>Bachelor of Hospitality Management</h3>
+                        <span class="course-level level-degree">Degree</span>
+                    </div>
+                    <p>Prepare for leadership roles in hotels, resorts, and restaurants with training in operations, food and beverage, guest services, and financial management.</p>
+                    <div class="card-meta">
+                        <div class="meta-item"><span>🕐</span> 3 Years</div>
+                        <div class="meta-item"><span>📍</span> Full-time</div>
+                        <div class="meta-item"><span>✅</span> NQF Level 7</div>
+                    </div>
+                    <div class="card-actions">
+                        <a href="admissions.html" class="btn btn-sm">Apply</a>
+                        <a href="faculties.html" class="btn btn-outline btn-sm">Learn More</a>
+                    </div>
+                </div>
+                <div class="course-card" data-faculty="hospitality" data-level="degree">
+                    <div class="card-top">
+                        <h3>Bachelor of Tourism Management</h3>
+                        <span class="course-level level-degree">Degree</span>
+                    </div>
+                    <p>Explore Namibia's booming tourism sector with modules in ecotourism, destination marketing, travel operations, and sustainable tourism development.</p>
+                    <div class="card-meta">
+                        <div class="meta-item"><span>🕐</span> 3 Years</div>
+                        <div class="meta-item"><span>📍</span> Full-time</div>
+                        <div class="meta-item"><span>✅</span> NQF Level 7</div>
+                    </div>
+                    <div class="card-actions">
+                        <a href="admissions.html" class="btn btn-sm">Apply</a>
+                        <a href="faculties.html" class="btn btn-outline btn-sm">Learn More</a>
+                    </div>
+                </div>
+                <div class="course-card" data-faculty="hospitality" data-level="diploma">
+                    <div class="card-top">
+                        <h3>Diploma in Event Management</h3>
+                        <span class="course-level level-diploma">Diploma</span>
+                    </div>
+                    <p>Plan and execute corporate events, conferences, festivals, and weddings — covering logistics, budgeting, vendor management, and event marketing.</p>
+                    <div class="card-meta">
+                        <div class="meta-item"><span>🕐</span> 2 Years</div>
+                        <div class="meta-item"><span>📍</span> Full-time</div>
+                        <div class="meta-item"><span>✅</span> NQF Level 6</div>
+                    </div>
+                    <div class="card-actions">
+                        <a href="admissions.html" class="btn btn-sm">Apply</a>
+                        <a href="faculties.html" class="btn btn-outline btn-sm">Learn More</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div><!-- /programs-section -->
+
+    <!-- OVERVIEW TABLE -->
+    <div class="duration-section">
+        <p class="label">Quick Reference</p>
+        <h2 class="section-title">Qualification Overview</h2>
+        <hr class="divider">
+        <table class="dates-table">
             <thead>
                 <tr>
-                    <th>Program Type</th>
-                    <th>Description</th>
+                    <th>Qualification</th>
+                    <th>NQF Level</th>
                     <th>Duration</th>
+                    <th>Typical Careers</th>
                 </tr>
             </thead>
             <tbody>
                 <tr>
                     <td>Certificate</td>
-                    <td>Introductory skills for entry-level roles.</td>
+                    <td>Level 5</td>
                     <td>1 Year</td>
+                    <td>Entry-level technician, junior support roles</td>
                 </tr>
                 <tr>
                     <td>Diploma</td>
-                    <td>Technical and vocational training.</td>
-                    <td>2 - 3 Years</td>
+                    <td>Level 6</td>
+                    <td>2 – 3 Years</td>
+                    <td>Specialist, team leader, administrator</td>
                 </tr>
                 <tr>
                     <td>Bachelor's Degree</td>
-                    <td>Deep theoretical and practical knowledge.</td>
-                    <td>3 - 4 Years</td>
+                    <td>Level 7</td>
+                    <td>3 – 4 Years</td>
+                    <td>Professional, manager, researcher</td>
                 </tr>
             </tbody>
         </table>
-    </section>
+    </div>
 
-    <section>
-        <h2>3. Admission Requirements</h2>
-        <p>General entry for 2026 academic year:</p>
-        <ul>
-            <li><strong>Degree:</strong> 25+ points, Minimum 'C' in English (NSSCO).</li>
-            <li><strong>Diploma:</strong> 22+ points, Minimum 'D' in English (NSSCO).</li>
-            <li><strong>Mature Age:</strong> For applicants 25 years or older with experience.</li>
-        </ul>
-    </section>
-      <footer>
-        <p>&copy; 2026 Limkokwing University Namibia - Group Project</p>
+    <!-- REQUIREMENTS -->
+    <div class="requirements-band">
+        <div class="inner">
+            <p class="label">2026 Entry Criteria</p>
+            <h2 class="section-title">Admission Requirements</h2>
+            <hr class="divider">
+            <p class="section-sub">All applicants must have completed the Namibia Senior Secondary Certificate Ordinary level (NSSCO) or equivalent. Mature age entry is available for applicants 25 years or older.</p>
+            <div class="req-cards">
+                <div class="req-card" data-type="DEG">
+                    <h3>Bachelor's Degree</h3>
+                    <div class="points">25 <span>pts minimum</span></div>
+                    <ul>
+                        <li>Minimum grade C in English (NSSCO)</li>
+                        <li>Relevant subject credits per faculty</li>
+                        <li>Certified NSSCO results required</li>
+                    </ul>
+                </div>
+                <div class="req-card" data-type="DIP">
+                    <h3>Diploma</h3>
+                    <div class="points">22 <span>pts minimum</span></div>
+                    <ul>
+                        <li>Minimum grade D in English (NSSCO)</li>
+                        <li>Two relevant subject passes</li>
+                        <li>Certified NSSCO results required</li>
+                    </ul>
+                </div>
+                <div class="req-card" data-type="CERT">
+                    <h3>Certificate</h3>
+                    <div class="points">18 <span>pts minimum</span></div>
+                    <ul>
+                        <li>Minimum grade E in English (NSSCO)</li>
+                        <li>Open to school leavers and working adults</li>
+                        <li>Interview may be required</li>
+                    </ul>
+                </div>
+                <div class="req-card" data-type="MAT">
+                    <h3>Mature Age Entry</h3>
+                    <div class="points">25 <span>yrs+</span></div>
+                    <ul>
+                        <li>Relevant work experience considered</li>
+                        <li>Portfolio or aptitude test may apply</li>
+                        <li>English proficiency required</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- CTA -->
+    <div class="cta-strip">
+        <div class="cta-box">
+            <div>
+                <h2>Ready to Start Your Journey?</h2>
+                <p>Applications for the 2026 academic year are now open. Secure your place before 30 June 2026.</p>
+            </div>
+            <div class="cta-btns">
+                <a href="admissions.html" class="btn">Apply Now</a>
+                <a href="contact.html" class="btn btn-outline">Enquire</a>
+            </div>
+        </div>
+    </div>
+
+    <!-- FOOTER -->
+    <footer>
+        <p>&copy; 2026 <span>Limkokwing University Namibia</span> — Group Project</p>
+        <p>Windhoek, Namibia &nbsp;|&nbsp; admissions@luct.edu.na &nbsp;|&nbsp; +264 61 000 0000</p>
     </footer>
-    
-<script src="js/nav.js"></script>
-<script src="js/admissions.js"></script>
-<script src="js/login.js"></script>     
+
+    <script>
+        // Hamburger
+        const ham = document.getElementById('hamburger');
+        const nav = document.getElementById('navLinks');
+        ham.addEventListener('click', () => nav.classList.toggle('open'));
+
+        // Filter tabs
+        const tabs = document.querySelectorAll('.filter-tab');
+        const faculties = ['business','it','communication','design','architecture','hospitality'];
+
+        tabs.forEach(tab => {
+            tab.addEventListener('click', () => {
+                tabs.forEach(t => t.classList.remove('active'));
+                tab.classList.add('active');
+                const filter = tab.dataset.filter;
+                const cards = document.querySelectorAll('.course-card');
+                const blocks = document.querySelectorAll('.faculty-block');
+
+                if (filter === 'all') {
+                    cards.forEach(c => c.style.display = '');
+                    blocks.forEach(b => b.style.display = '');
+                } else if (faculties.includes(filter)) {
+                    blocks.forEach(b => {
+                        b.style.display = b.dataset.faculty === filter ? '' : 'none';
+                    });
+                    cards.forEach(c => c.style.display = '');
+                } else {
+                    // level filter
+                    blocks.forEach(b => b.style.display = '');
+                    cards.forEach(c => {
+                        c.style.display = c.dataset.level === filter ? '' : 'none';
+                    });
+                    // hide empty blocks
+                    blocks.forEach(b => {
+                        const visible = [...b.querySelectorAll('.course-card')].some(c => c.style.display !== 'none');
+                        b.style.display = visible ? '' : 'none';
+                    });
+                }
+            });
+        });
+    </script>
 </body>
 </html>
