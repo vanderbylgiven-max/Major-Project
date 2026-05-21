@@ -58,7 +58,7 @@
                     <h3>Broadcasting Accreditation 2028</h3>
                     <p>The BA in Journalism has received its official extension from the NCHE.</p>
                     <div id="m1" class="more-info"><p>This ensures our graduates continue to meet national broadcasting standards for the next 3 years.</p></div>
-                    <button class="btn" onclick="toggle('m1', this)">Read More</button>
+                    <button type="button" class="btn" onclick="toggle('m1', this)">Read More</button>
                 </div>
             </article>
 
@@ -69,7 +69,7 @@
                     <h3>Official NTA Provider Status</h3>
                     <p>Now certified to offer Level 2-4 ICT Vocational Certificates in Namibia.</p>
                     <div id="m2" class="more-info"><p>Valid until 2028, these programs focus on practical web development and system support.</p></div>
-                    <button class="btn" onclick="toggle('m2', this)">Read More</button>
+                    <button type="button" class="btn" onclick="toggle('m2', this)">Read More</button>
                 </div>
             </article>
 
@@ -80,7 +80,7 @@
                     <h3>BSc in IT Extension</h3>
                     <p>The NQA has certified our IT program through June 2030.</p>
                     <div id="m3" class="more-info"><p>The curriculum now includes advanced 2026 modules in AI and Cloud Architecture.</p></div>
-                    <button class="btn" onclick="toggle('m3', this)">Read More</button>
+                    <button type="button" class="btn" onclick="toggle('m3', this)">Read More</button>
                 </div>
             </article>
 
@@ -91,7 +91,7 @@
                     <h3>UNESCO Digital Heritage</h3>
                     <p>Students are documenting Namibia's heritage sites using 360-degree VR.</p>
                     <div id="m4" class="more-info"><p>This project aims to preserve historical landmarks in a virtual digital archive for schools.</p></div>
-                    <button class="btn" onclick="toggle('m4', this)">Read More</button>
+                    <button type="button" class="btn" onclick="toggle('m4', this)">Read More</button>
                 </div>
             </article>
 
@@ -102,7 +102,7 @@
                     <h3>National Innovation Winners</h3>
                     <p>Three Limkokwing teams took top spots at the Namibia Tech Summit.</p>
                     <div id="m5" class="more-info"><p>The winning projects focused on mobile health solutions and e-governance tools.</p></div>
-                    <button class="btn" onclick="toggle('m5', this)">Read More</button>
+                    <button type="button" class="btn" onclick="toggle('m5', this)">Read More</button>
                 </div>
             </article>
         </section>
@@ -140,13 +140,11 @@
 
     <script>
         function toggle(id, b) {
-            let e = document.getElementById(id);
-            if(e.style.display === "block") {
-                e.style.display = "none";
-                b.innerText = "Read More";
-            } else {
-                e.style.display = "block";
-                b.innerText = "Show Less";
+            const e = document.getElementById(id);
+            const isOpen = e.classList.toggle('open');
+            b.innerText = isOpen ? 'Show Less' : 'Read More';
+            if (!isOpen) {
+                e.style.maxHeight = null;
             }
         }
     </script>
@@ -188,38 +186,6 @@ document.addEventListener('DOMContentLoaded', function () {
     }
 });
 </script>
-    <script>
-        document.addEventListener('DOMContentLoaded', function () {
-            const infoFormOverlay = document.getElementById('infoFormOverlay');
-            const openInfoBtn = document.getElementById('openInfoBtn');
-            const cancelInfoBtn = document.getElementById('cancelInfoBtn');
-            const infoForm = document.getElementById('infoForm');
-
-            openInfoBtn.addEventListener('click', function () {
-                infoFormOverlay.classList.add('active');
-            });
-
-            cancelInfoBtn.addEventListener('click', function () {
-                infoFormOverlay.classList.remove('active');
-            });
-
-            infoForm.addEventListener('submit', function (event) {
-                event.preventDefault();
-
-                const name = document.getElementById('visitorName').value.trim();
-                const age = document.getElementById('visitorAge').value.trim();
-
-                if (!name || !age) {
-                    alert('Please enter both your name and age.');
-                    return;
-                }
-
-                infoFormOverlay.classList.remove('active');
-                saveVisitorAndOpenNews(name, age);
-            });
-        });
-    </script>
-
 <script src="script.js"></script>
 </body>
 </html>
