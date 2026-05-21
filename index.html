@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -5,14 +6,548 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Home | Limkokwing University Namibia</title>
     <link rel="stylesheet" href="style.css">
+    <style>
+        /* ══════════════════════════════════════════
+           INDEX PAGE — HOMEPAGE STYLES
+        ══════════════════════════════════════════ */
+
+        /* ── HERO ── */
+        .hero-home {
+            min-height: 92vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+            background: var(--dark-bg);
+        }
+
+        /* Animated gradient mesh background */
+        .hero-home::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background:
+                radial-gradient(ellipse 80% 60% at 20% 80%, rgba(226,31,38,0.18) 0%, transparent 55%),
+                radial-gradient(ellipse 60% 50% at 80% 20%, rgba(255,204,0,0.10) 0%, transparent 50%),
+                radial-gradient(ellipse 50% 40% at 50% 50%, rgba(226,31,38,0.06) 0%, transparent 70%);
+            animation: meshShift 8s ease-in-out infinite alternate;
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        @keyframes meshShift {
+            0%   { opacity: 0.7; transform: scale(1); }
+            100% { opacity: 1;   transform: scale(1.05); }
+        }
+
+        /* Grid lines overlay */
+        .hero-home::after {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background-image:
+                linear-gradient(rgba(255,255,255,0.025) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(255,255,255,0.025) 1px, transparent 1px);
+            background-size: 60px 60px;
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        .hero-content {
+            position: relative;
+            z-index: 2;
+            max-width: 820px;
+            padding: 40px 24px;
+        }
+
+        .hero-eyebrow {
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            color: var(--luct-red);
+            font-size: 0.72rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.22em;
+            margin-bottom: 20px;
+            animation: fadeUp 0.7s ease both;
+        }
+
+        .hero-eyebrow::before,
+        .hero-eyebrow::after {
+            content: '';
+            width: 32px;
+            height: 1.5px;
+            background: var(--luct-red);
+        }
+
+        .hero-home h1 {
+            font-size: clamp(2.6rem, 6vw, 5rem);
+            font-weight: 800;
+            color: #fff;
+            line-height: 1.05;
+            margin-bottom: 10px;
+            animation: fadeUp 0.7s 0.1s ease both;
+        }
+
+        .hero-home h1 .gold-line {
+            color: var(--gold);
+            display: block;
+        }
+
+        .hero-home h1 .red-line {
+            color: var(--luct-red);
+        }
+
+        .hero-home .hero-sub {
+            color: var(--muted);
+            font-size: 1.1rem;
+            max-width: 560px;
+            margin: 18px auto 36px;
+            line-height: 1.75;
+            animation: fadeUp 0.7s 0.2s ease both;
+        }
+
+        .hero-btns {
+            display: flex;
+            gap: 14px;
+            justify-content: center;
+            flex-wrap: wrap;
+            animation: fadeUp 0.7s 0.3s ease both;
+        }
+
+        /* Scroll indicator */
+        .scroll-hint {
+            position: absolute;
+            bottom: 32px;
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 6px;
+            color: var(--muted);
+            font-size: 0.7rem;
+            letter-spacing: 0.15em;
+            text-transform: uppercase;
+            z-index: 2;
+            animation: bounce 2s ease-in-out infinite;
+        }
+
+        .scroll-hint::after {
+            content: '';
+            width: 1px;
+            height: 40px;
+            background: linear-gradient(to bottom, var(--luct-red), transparent);
+        }
+
+        @keyframes bounce {
+            0%, 100% { transform: translateX(-50%) translateY(0); }
+            50%       { transform: translateX(-50%) translateY(6px); }
+        }
+
+        @keyframes fadeUp {
+            from { opacity: 0; transform: translateY(24px); }
+            to   { opacity: 1; transform: translateY(0); }
+        }
+
+        /* ── STATS BAR ── */
+        .stats-bar {
+            background: rgba(0,0,0,0.7);
+            border-top: 1px solid rgba(255,255,255,0.06);
+            border-bottom: 2px solid var(--luct-red);
+            padding: 24px 20px;
+            position: relative;
+            z-index: 5;
+            backdrop-filter: blur(10px);
+        }
+
+        .stats-inner {
+            max-width: 1000px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 0;
+            flex-wrap: wrap;
+        }
+
+        .stat-item {
+            text-align: center;
+            padding: 0 3rem;
+            border-right: 1px solid rgba(255,255,255,0.08);
+        }
+
+        .stat-item:last-child {
+            border-right: none;
+        }
+
+        .stat-item .num {
+            font-family: var(--font-display);
+            font-size: 2.2rem;
+            font-weight: 800;
+            color: var(--gold);
+            line-height: 1;
+            display: block;
+        }
+
+        .stat-item .lbl {
+            font-size: 0.72rem;
+            color: var(--muted);
+            text-transform: uppercase;
+            letter-spacing: 0.12em;
+            margin-top: 5px;
+            display: block;
+        }
+
+        /* ── QUICK LINKS GRID ── */
+        .quick-links {
+            max-width: 1100px;
+            margin: 60px auto 0;
+            padding: 0 20px;
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 16px;
+        }
+
+        .quick-card {
+            background: var(--glass);
+            backdrop-filter: blur(10px);
+            border: 1px solid var(--glass-border);
+            border-radius: 14px;
+            padding: 28px 22px;
+            text-align: center;
+            text-decoration: none;
+            transition: transform 0.3s, border-color 0.3s, box-shadow 0.3s;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .quick-card::before {
+            content: '';
+            position: absolute;
+            bottom: 0; left: 0; right: 0;
+            height: 3px;
+            background: linear-gradient(90deg, var(--luct-red), var(--gold));
+            opacity: 0;
+            transition: opacity 0.3s;
+        }
+
+        .quick-card:hover {
+            transform: translateY(-6px);
+            border-color: rgba(226,31,38,0.4);
+            box-shadow: 0 16px 40px rgba(0,0,0,0.4), 0 0 0 1px rgba(226,31,38,0.15);
+        }
+
+        .quick-card:hover::before { opacity: 1; }
+
+        .quick-icon {
+            font-size: 2rem;
+            display: block;
+            margin-bottom: 12px;
+        }
+
+        .quick-card h3 {
+            font-size: 0.98rem;
+            font-weight: 700;
+            color: var(--gold);
+            margin-bottom: 6px;
+        }
+
+        .quick-card p {
+            font-size: 0.8rem;
+            color: var(--muted);
+            line-height: 1.5;
+        }
+
+        /* ── ABOUT STRIP ── */
+        .about-strip {
+            max-width: 1100px;
+            margin: 70px auto 0;
+            padding: 0 20px;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 50px;
+            align-items: center;
+            position: relative;
+            z-index: 5;
+        }
+
+        .about-strip .text-side .eyebrow {
+            color: var(--luct-red);
+            font-size: 0.72rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.18em;
+            margin-bottom: 14px;
+            display: block;
+        }
+
+        .about-strip h2 {
+            font-size: clamp(1.8rem, 3vw, 2.6rem);
+            font-weight: 800;
+            color: #fff;
+            line-height: 1.15;
+            margin-bottom: 16px;
+        }
+
+        .about-strip h2 span {
+            color: var(--gold);
+        }
+
+        .about-strip p {
+            color: var(--muted);
+            font-size: 0.97rem;
+            line-height: 1.8;
+            margin-bottom: 28px;
+        }
+
+        .about-strip .visual-side {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 14px;
+        }
+
+        .about-tile {
+            background: var(--glass);
+            backdrop-filter: blur(10px);
+            border: 1px solid var(--glass-border);
+            border-radius: 12px;
+            padding: 24px 20px;
+            text-align: center;
+            transition: border-color 0.3s;
+        }
+
+        .about-tile:hover { border-color: var(--luct-red); }
+
+        .about-tile:first-child {
+            grid-column: 1 / -1;
+            background: rgba(226,31,38,0.08);
+            border-color: rgba(226,31,38,0.25);
+        }
+
+        .about-tile .tile-num {
+            font-family: var(--font-display);
+            font-size: 2rem;
+            font-weight: 800;
+            color: var(--gold);
+            line-height: 1;
+            display: block;
+        }
+
+        .about-tile .tile-lbl {
+            font-size: 0.82rem;
+            color: var(--muted);
+            margin-top: 6px;
+            display: block;
+        }
+
+        /* ── FACULTIES SECTION ── */
+        .faculties-section {
+            max-width: 1100px;
+            margin: 70px auto 0;
+            padding: 0 20px;
+            position: relative;
+            z-index: 5;
+        }
+
+        .section-header {
+            display: flex;
+            align-items: flex-end;
+            justify-content: space-between;
+            margin-bottom: 28px;
+            flex-wrap: wrap;
+            gap: 12px;
+        }
+
+        .section-header .left .eyebrow {
+            color: var(--luct-red);
+            font-size: 0.72rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.18em;
+            display: block;
+            margin-bottom: 6px;
+        }
+
+        .section-header h2 {
+            font-size: 1.7rem;
+            font-weight: 800;
+            color: #fff;
+        }
+
+        .faculties-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 16px;
+        }
+
+        .faculty-card {
+            background: var(--glass);
+            backdrop-filter: blur(10px);
+            border: 1px solid var(--glass-border);
+            border-radius: 14px;
+            padding: 26px;
+            text-decoration: none;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            transition: transform 0.3s, border-color 0.3s, box-shadow 0.3s;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .faculty-card::after {
+            content: '';
+            position: absolute;
+            top: 0; left: 0; right: 0;
+            height: 3px;
+            background: linear-gradient(90deg, var(--luct-red), var(--gold));
+            transform: scaleX(0);
+            transform-origin: left;
+            transition: transform 0.3s;
+        }
+
+        .faculty-card:hover {
+            transform: translateY(-5px);
+            border-color: rgba(226,31,38,0.35);
+            box-shadow: 0 12px 40px rgba(0,0,0,0.4);
+        }
+
+        .faculty-card:hover::after { transform: scaleX(1); }
+
+        .faculty-card .f-icon {
+            font-size: 1.8rem;
+            display: block;
+        }
+
+        .faculty-card h3 {
+            font-size: 1rem;
+            font-weight: 700;
+            color: var(--gold);
+        }
+
+        .faculty-card p {
+            font-size: 0.83rem;
+            color: var(--muted);
+            line-height: 1.6;
+            flex: 1;
+        }
+
+        .faculty-card .f-link {
+            font-size: 0.78rem;
+            font-weight: 700;
+            color: var(--luct-red);
+            text-transform: uppercase;
+            letter-spacing: 0.08em;
+            margin-top: 4px;
+        }
+
+        /* ── NEWS SECTION ── */
+        .news-section {
+            max-width: 1100px;
+            margin: 70px auto 0;
+            padding: 0 20px;
+            position: relative;
+            z-index: 5;
+        }
+
+        /* ── CTA BAND ── */
+        .cta-band {
+            margin: 70px 20px 0;
+            position: relative;
+            z-index: 5;
+        }
+
+        .cta-band-inner {
+            max-width: 1100px;
+            margin: 0 auto;
+            background: linear-gradient(135deg, rgba(226,31,38,0.18) 0%, rgba(255,204,0,0.06) 100%);
+            border: 1px solid rgba(226,31,38,0.3);
+            border-radius: 18px;
+            padding: 56px 48px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 30px;
+            flex-wrap: wrap;
+            overflow: hidden;
+            position: relative;
+        }
+
+        .cta-band-inner::before {
+            content: 'APPLY';
+            position: absolute;
+            font-family: var(--font-display);
+            font-size: 11rem;
+            font-weight: 800;
+            color: rgba(255,255,255,0.018);
+            right: -20px;
+            top: 50%;
+            transform: translateY(-50%);
+            pointer-events: none;
+            line-height: 1;
+            white-space: nowrap;
+        }
+
+        .cta-text .tag {
+            color: var(--luct-red);
+            font-size: 0.72rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.18em;
+            display: block;
+            margin-bottom: 10px;
+        }
+
+        .cta-text h2 {
+            font-size: clamp(1.5rem, 3vw, 2.2rem);
+            font-weight: 800;
+            color: #fff;
+            margin-bottom: 10px;
+        }
+
+        .cta-text p {
+            color: var(--muted);
+            font-size: 0.97rem;
+            max-width: 440px;
+        }
+
+        .cta-actions {
+            display: flex;
+            gap: 14px;
+            flex-wrap: wrap;
+            flex-shrink: 0;
+        }
+
+        /* ── RESPONSIVE ── */
+        @media (max-width: 900px) {
+            .quick-links { grid-template-columns: repeat(2, 1fr); }
+            .faculties-grid { grid-template-columns: repeat(2, 1fr); }
+            .about-strip { grid-template-columns: 1fr; }
+        }
+
+        @media (max-width: 600px) {
+            .quick-links { grid-template-columns: 1fr 1fr; gap: 10px; }
+            .faculties-grid { grid-template-columns: 1fr; }
+            .stat-item { padding: 12px 1.5rem; border-right: none; border-bottom: 1px solid rgba(255,255,255,0.08); }
+            .stat-item:last-child { border-bottom: none; }
+            .cta-band-inner { padding: 36px 24px; text-align: center; justify-content: center; }
+            .cta-actions { justify-content: center; }
+        }
+    </style>
 </head>
 
 <body>
+
+    <!-- NAVBAR -->
     <header>
-        <div class="navbar">
-            <div class="logo">LUCT Namibia</div>
-            <ul>
-                <li><a href="index.html">Home</a></li>
+        <nav class="navbar">
+            <div class="logo">LUCT <span>Namibia</span></div>
+            <ul id="navLinks">
+                <li><a href="index.html" class="active">Home</a></li>
                 <li><a href="about.html">About Us</a></li>
                 <li><a href="courses.html">Courses</a></li>
                 <li><a href="admissions.html">Admissions</a></li>
@@ -22,78 +557,250 @@
                 <li><a href="contact.html">Contact Us</a></li>
                 <li><a href="login.html">Login</a></li>
             </ul>
+            <div class="hamburger" id="hamburger">
+                <span></span><span></span><span></span>
+            </div>
         </nav>
-        </div>
     </header>
 
-    <!-- Hero / Welcome Section -->
-  <section class="hero">
-    <div class="hero-overlay">
-      <h1>Welcome to Limkokwing University</h1>
-      <p>The Global University of Creative Technology</p>
-      <a href="#overview" class="btn">Explore More</a>
-    </div>
-  </section>
-
-<!-- Grid Banner Section -->
-<div class="grid-container">
-  <div class="item1"><a href="news.html">Campus Life</a></div>
-  <div class="item2"><a href="courses.html">Academic Excellence</a></div>
-  <div class="item3"><a href="faculties.html">Global Network</a></div>
-  <div class="item4"><a href="about.html">Innovation Hub</a></div>
-</div>
-
-  <!-- Main Content -->
-  <main>
-    <!-- College Overview -->
-    <section id="overview" class="overview">
-      <h2>College Overview</h2>
-      <p>Limkokwing University of Creative Technology is a pioneering private institution founded in 1991, headquartered in Cyberjaya, Malaysia, with campuses across Asia, Africa, and Europe. With over 30,000 students from 150+ countries, the university is a melting pot of cultures, ideas, and innovation.</p>
-    </section>
-
-
-    <section class="announcements">
-      <h3>Latest Announcements</h3>
-      <div class="news-grid">
-
-        <div class="news-card">
-          
-
-<div class="card-img">
-  <img src="images/welcome.jpg" alt="graduation pic">
-</div>
-           <div class="card-content">
-            <span class="label">Admissions</span>
-            <h4>2026 Intake Now Open</h4>
-            <p>Apply today to join our diverse and innovative community.</p>
+    <!-- BREAKING NEWS TICKER -->
+    <div class="breaking-news-bar">
+        <div class="ticker-label">📢 LATEST</div>
+        <div class="ticker-window">
+            <div class="ticker-track">
+                <span>Applications for 2026 are now open — Apply before 30 June 2026 &nbsp;|&nbsp;</span>
+                <span>New Cyber Security programme launching Semester 2 &nbsp;|&nbsp;</span>
+                <span>LUCT Namibia ranked among top institutions in Southern Africa &nbsp;|&nbsp;</span>
+                <span>Graduation Ceremony 2026 — Celebrate with us this June &nbsp;|&nbsp;</span>
+                <span>Scholarship opportunities available for qualifying students &nbsp;|&nbsp;</span>
+                <span>Applications for 2026 are now open — Apply before 30 June 2026 &nbsp;|&nbsp;</span>
+                <span>New Cyber Security programme launching Semester 2 &nbsp;|&nbsp;</span>
+                <span>LUCT Namibia ranked among top institutions in Southern Africa &nbsp;|&nbsp;</span>
+                <span>Graduation Ceremony 2026 — Celebrate with us this June &nbsp;|&nbsp;</span>
+                <span>Scholarship opportunities available for qualifying students &nbsp;|&nbsp;</span>
             </div>
-          </div>
-      
-      
-        
-
-        <div class="news-card">
-          <div class="card-img">
-            <img src="images/grad2.jpg" alt="graduation pic">
-            </div>
-          <div class="card-content">
-            <span class="label">Events</span>
-            <h4>Graduation Ceremony</h4>
-            <p>Celebrate achievements with us this June.</p>
-          </div>
         </div>
-      </div>
+    </div>
 
+    <!-- ══ HERO ══ -->
+    <section class="hero-home">
+        <div class="hero-content">
+            <div class="hero-eyebrow">Windhoek, Namibia &nbsp;·&nbsp; Est. 1991</div>
+            <h1>
+                Shape the Future<span class="gold-line">with Creative</span><span class="red-line">Technology.</span>
+            </h1>
+            <p class="hero-sub">
+                Limkokwing University Namibia — where innovation meets ambition. Join 30,000+ students from 150 countries building tomorrow's world today.
+            </p>
+            <div class="hero-btns">
+                <a href="admissions.html" class="btn">Apply for 2026</a>
+                <a href="courses.html" class="btn btn-outline">Browse Programmes</a>
+            </div>
+        </div>
+        <div class="scroll-hint">Scroll</div>
     </section>
-  </main>
 
+    <!-- ══ STATS BAR ══ -->
+    <div class="stats-bar">
+        <div class="stats-inner">
+            <div class="stat-item">
+                <span class="num">30K+</span>
+                <span class="lbl">Students Worldwide</span>
+            </div>
+            <div class="stat-item">
+                <span class="num">150+</span>
+                <span class="lbl">Countries Represented</span>
+            </div>
+            <div class="stat-item">
+                <span class="num">6</span>
+                <span class="lbl">Faculties</span>
+            </div>
+            <div class="stat-item">
+                <span class="num">12+</span>
+                <span class="lbl">Programmes Offered</span>
+            </div>
+            <div class="stat-item">
+                <span class="num">2026</span>
+                <span class="lbl">Intake Now Open</span>
+            </div>
+        </div>
+    </div>
 
-  <footer>
-    <p>&copy; 2026 Limkokwing University Namibia - Group Project</p>
-  </footer>
+    <!-- ══ QUICK LINKS ══ -->
+    <div class="quick-links">
+        <a href="news.html" class="quick-card">
+            <span class="quick-icon">🏫</span>
+            <h3>Campus Life</h3>
+            <p>Events, clubs, sports and everything happening on campus.</p>
+        </a>
+        <a href="courses.html" class="quick-card">
+            <span class="quick-icon">📚</span>
+            <h3>Academic Excellence</h3>
+            <p>World-class programmes across technology, business and the arts.</p>
+        </a>
+        <a href="faculties.html" class="quick-card">
+            <span class="quick-icon">🌍</span>
+            <h3>Global Network</h3>
+            <p>Campuses across Asia, Africa and Europe — one community.</p>
+        </a>
+        <a href="about.html" class="quick-card">
+            <span class="quick-icon">💡</span>
+            <h3>Innovation Hub</h3>
+            <p>Cutting-edge labs, studios and creative spaces at your disposal.</p>
+        </a>
+    </div>
 
-<script src="js/nav.js"></script>
-<script src="js/admissions.js"></script>
-<script src="js/login.js"></script> 
+    <!-- ══ ABOUT STRIP ══ -->
+    <div class="about-strip">
+        <div class="text-side">
+            <span class="eyebrow">Who We Are</span>
+            <h2>A University Built for <span>the Bold</span></h2>
+            <p>Founded in 1991 and headquartered in Cyberjaya, Malaysia, Limkokwing University of Creative Technology is a pioneering private institution with campuses across Asia, Africa and Europe. Our Namibia campus brings that global vision to the heart of Southern Africa.</p>
+            <p>We believe in education that doesn't just teach — it transforms. Through hands-on learning, industry partnerships and a culture of creativity, our graduates leave ready to lead.</p>
+            <a href="about.html" class="btn">Our Story</a>
+        </div>
+        <div class="visual-side">
+            <div class="about-tile">
+                <span class="tile-num">🏆 #1</span>
+                <span class="tile-lbl">Creative Technology University in Southern Africa</span>
+            </div>
+            <div class="about-tile">
+                <span class="tile-num">1991</span>
+                <span class="tile-lbl">Year Founded</span>
+            </div>
+            <div class="about-tile">
+                <span class="tile-num">25+</span>
+                <span class="tile-lbl">Campus Locations Globally</span>
+            </div>
+            <div class="about-tile">
+                <span class="tile-num">100%</span>
+                <span class="tile-lbl">Industry-Aligned Curriculum</span>
+            </div>
+        </div>
+    </div>
+
+    <!-- ══ FACULTIES ══ -->
+    <div class="faculties-section">
+        <div class="section-header">
+            <div class="left">
+                <span class="eyebrow">Explore Our Faculties</span>
+                <h2>Find Your Path</h2>
+            </div>
+            <a href="faculties.html" class="btn btn-outline btn-sm">View All Departments</a>
+        </div>
+
+        <div class="faculties-grid">
+            <a href="business.html" class="faculty-card">
+                <span class="f-icon">📊</span>
+                <h3>Faculty of Business</h3>
+                <p>Business Administration, Marketing, Accounting and Entrepreneurship.</p>
+                <span class="f-link">Explore →</span>
+            </a>
+            <a href="it.html" class="faculty-card">
+                <span class="f-icon">💻</span>
+                <h3>Faculty of Information Technology</h3>
+                <p>Software Engineering, Networking and Cyber Security.</p>
+                <span class="f-link">Explore →</span>
+            </a>
+            <a href="communication.html" class="faculty-card">
+                <span class="f-icon">🎙️</span>
+                <h3>Faculty of Communication</h3>
+                <p>Media Studies and Digital Communication.</p>
+                <span class="f-link">Explore →</span>
+            </a>
+            <a href="design.html" class="faculty-card">
+                <span class="f-icon">🎨</span>
+                <h3>Faculty of Design Innovation</h3>
+                <p>Graphic Design, Multimedia and Animation.</p>
+                <span class="f-link">Explore →</span>
+            </a>
+            <a href="architecture.html" class="faculty-card">
+                <span class="f-icon">🏛️</span>
+                <h3>Faculty of Architecture</h3>
+                <p>Architecture and Interior Design.</p>
+                <span class="f-link">Explore →</span>
+            </a>
+            <a href="hospitality.html" class="faculty-card">
+                <span class="f-icon">🏨</span>
+                <h3>Faculty of Hospitality</h3>
+                <p>Tourism, Hotel and Event Management.</p>
+                <span class="f-link">Explore →</span>
+            </a>
+        </div>
+    </div>
+
+    <!-- ══ LATEST NEWS ══ -->
+    <div class="news-section">
+        <div class="section-header">
+            <div class="left">
+                <span class="eyebrow">What's Happening</span>
+                <h2>Latest News & Events</h2>
+            </div>
+            <a href="news.html" class="btn btn-outline btn-sm">All News</a>
+        </div>
+
+        <div class="news-grid">
+            <div class="news-card">
+                <div class="card-img img-3"></div>
+                <div class="card-content">
+                    <span class="label">Admissions</span>
+                    <h4 style="color:#fff; font-family: var(--font-display); margin: 8px 0;">2026 Intake Now Open</h4>
+                    <p style="color: var(--muted); font-size:0.88rem; margin-bottom:16px;">Apply today to join our diverse and innovative community before the June deadline.</p>
+                    <a href="admissions.html" class="btn btn-sm">Apply Now</a>
+                </div>
+            </div>
+
+            <div class="news-card">
+                <div class="card-img img-1"></div>
+                <div class="card-content">
+                    <span class="label">Events</span>
+                    <h4 style="color:#fff; font-family: var(--font-display); margin: 8px 0;">Graduation Ceremony 2026</h4>
+                    <p style="color: var(--muted); font-size:0.88rem; margin-bottom:16px;">Celebrate the achievements of our graduating class this June in Windhoek.</p>
+                    <a href="news.html" class="btn btn-sm btn-outline">Read More</a>
+                </div>
+            </div>
+
+            <div class="news-card">
+                <div class="card-img img-2"></div>
+                <div class="card-content">
+                    <span class="label">Programmes</span>
+                    <h4 style="color:#fff; font-family: var(--font-display); margin: 8px 0;">New Cyber Security Degree</h4>
+                    <p style="color: var(--muted); font-size:0.88rem; margin-bottom:16px;">Our new BSc Cyber Security programme launches Semester 2 — limited seats available.</p>
+                    <a href="courses.html" class="btn btn-sm btn-outline">Learn More</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ══ CTA BAND ══ -->
+    <div class="cta-band">
+        <div class="cta-band-inner">
+            <div class="cta-text">
+                <span class="tag">2026 Applications Open</span>
+                <h2>Ready to Start Your Journey?</h2>
+                <p>Secure your place at Limkokwing University Namibia. Applications close 30 June 2026 — don't miss your chance.</p>
+            </div>
+            <div class="cta-actions">
+                <a href="admissions.html" class="btn">Apply Now</a>
+                <a href="contact.html" class="btn btn-outline">Contact Us</a>
+            </div>
+        </div>
+    </div>
+
+    <!-- FOOTER -->
+    <footer>
+        <p>&copy; 2026 <span>Limkokwing University Namibia</span> — Group Project</p>
+        <p>Windhoek, Namibia &nbsp;|&nbsp; admissions@luct.edu.na &nbsp;|&nbsp; +264 61 000 0000</p>
+    </footer>
+
+    <script src="js/nav.js"></script>
+    <script src="js/admissions.js"></script>
+    <script src="js/login.js"></script>
+    <script>
+        const ham = document.getElementById('hamburger');
+        const nav = document.getElementById('navLinks');
+        if (ham) ham.addEventListener('click', () => nav.classList.toggle('open'));
+    </script>
+
 </body>
 </html>
