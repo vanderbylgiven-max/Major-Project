@@ -2,7 +2,7 @@
 <?php
 $host     = "localhost";
 $user     = "root";       // default XAMPP user
-$password = "";           // default XAMPP password is empty
+$password = "";           // default XAMPP password is emptyvhfhfgdgdf
 $database = "contact_db";
 
 $conn = new mysqli($host, $user, $password, $database);
