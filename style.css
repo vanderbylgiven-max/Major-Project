@@ -334,6 +334,35 @@ body::after {
     text-transform: uppercase; 
 }
 
+.more-info {
+    max-height: 0;
+    opacity: 0;
+    overflow: hidden;
+    transform: translateY(-6px);
+    transition: max-height 0.32s ease, opacity 0.28s ease, transform 0.28s ease, padding 0.28s ease;
+    padding-top: 0;
+    color: rgba(255, 255, 255, 0.85);
+    font-size: 0.95rem;
+    margin-bottom: 0;
+}
+
+.more-info.open {
+    max-height: 999px;
+    opacity: 1;
+    transform: translateY(0);
+    padding-top: 14px;
+    margin-bottom: 18px;
+}
+
+.more-info p {
+    margin: 0;
+    line-height: 1.75;
+}
+
+.card-content .btn {
+    margin-top: 16px;
+}
+
 /* --- 10. HERO --- */
 .hero {
     position: relative;
@@ -407,23 +436,27 @@ body::after {
 
 /* --- 11. BUTTONS --- */
 .btn { 
-    display: inline-block;
-    padding: 10px 22px; 
-    background: var(--luct-red); 
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 12px 26px;
+    background: linear-gradient(135deg, rgba(226,31,38,1) 0%, rgba(255,99,88,1) 100%);
     color: #fff; 
     text-decoration: none;
-    border-radius: 4px; 
+    border-radius: 999px; 
     font-weight: 700;
     cursor: pointer;
-    border: 2px solid var(--luct-red);
-    transition: 0.3s;
+    border: none;
+    transition: transform 0.24s ease, box-shadow 0.24s ease, opacity 0.24s ease, background 0.24s ease;
     font-family: inherit;
     font-size: 0.95rem;
+    box-shadow: 0 12px 28px rgba(0,0,0,0.18);
 }
 
 .btn:hover { 
-    background: #fff; 
-    color: var(--luct-red); 
+    transform: translateY(-1px);
+    box-shadow: 0 16px 32px rgba(0,0,0,0.22);
+    opacity: 0.98;
 }
 
 .btn-outline {
