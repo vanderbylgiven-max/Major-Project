@@ -1,10 +1,5 @@
+/*google font family link*/
 
-/* =============================================
-   LIMKOKWING UNIVERSITY NAMIBIA — MASTER STYLESHEET
-   Updated: Consistent typography (Syne + DM Sans) across all pages
-   ============================================= */
-
-/* --- 0. FONTS (loaded here so every page gets them via style.css) --- */
 @import url('https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700;1,9..40,300&display=swap');
 
 /* --- 1. RESET --- */
@@ -41,19 +36,18 @@ body {
     min-height: 100vh;
 }
 
-/* All headings use Syne site-wide — no per-page override needed */
+
 h1, h2, h3, h4, h5, h6 {
     font-family: var(--font-display);
     font-weight: 700;
     line-height: 1.2;
 }
 
-/* Body copy always DM Sans */
 p, li, label, input, select, textarea, button, a {
     font-family: var(--font-body);
 }
 
-/* --- 4. BACKGROUND EFFECTS --- */
+
 body::before {
     content: '';
     position: fixed;
