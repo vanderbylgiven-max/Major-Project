@@ -1,59 +1,275 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Login page | Limkokwing University Namibia</title>
-    <link rel="stylesheet" href="style.css">
+
+    <title>Student Portal Login</title>
+
+    <link rel="stylesheet" href="styles.css">
 </head>
 
 <body>
 
-<header>
-    <nav class="navbar">
-        <div class="logo">LUCT Namibia</div>
+<div class="login-box">
 
-        <ul>
-            <li><a href="index.html">Home</a></li>
-            <li><a href="about.html">About Us</a></li>
-            <li><a href="courses.html">Courses</a></li>
-            <li><a href="admissions.html">Admissions</a></li>
-            <li><a href="faculties.html">Departments</a></li>
-            <li><a href="studentlife.html">Student Life</a></li>
-            <li><a href="news.html">News</a></li>
-            <li><a href="contact.html">Contact Us</a></li>
-            <li><a href="login.html">Login</a></li>
-        </ul>
-    </nav>
-</header>
+    <h2>Student Portal</h2>
 
-<main class="container">
+    <!-- ANNOUNCEMENTS -->
 
-    <section class="visitor-report section">
-        <div class="visitor-report-wrap">
-            <h2>People who visited the news page in Namibia</h2>
-            <p>Download the visitor list collected from the news page form.</p>
+    <div class="announcement-box">
 
-            <button class="btn" id="downloadVisitorsBtn" type="button">
-                Download Visitor List
-            </button>
+        <h3>Announcements</h3>
+
+        <p>📅 Semester Registration Open</p>
+        <p>📝 Exams Start 15 June 2026</p>
+        <p>📢 Campus WiFi Maintenance Friday</p>
+
+    </div>
+
+    <!-- LOGIN FORM -->
+
+    <div id="loginForm">
+
+        <input type="text"
+        id="loginUsername"
+        placeholder="Username">
+
+        <div class="password-box">
+
+            <input type="password"
+            id="loginPassword"
+            placeholder="Password">
+
+            <span onclick="togglePassword()">👁</span>
+
         </div>
-    </section>
 
-</main>
+        <button onclick="login()">Login</button>
 
-<footer>
-    <p>&copy; 2026 Limkokwing University Namibia - Group Project</p>
-</footer>
+        <p class="switch-text">
+            Don't have an account?
+            <span onclick="showRegister()">Create Account</span>
+        </p>
 
-<script src="script.js"></script>
+        <p class="switch-text">
+            <span onclick="showForgot()">Forgot Password?</span>
+        </p>
+
+    </div>
+
+    <!-- REGISTER FORM -->
+
+    <div id="registerForm" style="display:none;">
+
+        <input type="text" id="fullName" placeholder="Full Name">
+        <input type="text" id="newUsername" placeholder="Username">
+        <input type="email" id="email" placeholder="Student Email">
+
+        <div class="password-box">
+            <input type="password" id="newPassword" placeholder="Password">
+            <span onclick="toggleRegisterPassword()">👁</span>
+        </div>
+
+        <div class="password-box">
+            <input type="password" id="confirmPassword" placeholder="Confirm Password">
+            <span onclick="toggleConfirmPassword()">👁</span>
+        </div>
+
+        <input type="file" id="profilePic">
+
+        <button onclick="register()">Register</button>
+
+        <p class="switch-text">
+            Already have an account?
+            <span onclick="showLogin()">Login</span>
+        </p>
+
+    </div>
+
+    <!-- FORGOT PASSWORD -->
+
+    <div id="forgotForm" style="display:none;">
+
+        <input type="text" id="forgotUsername" placeholder="Username">
+        <input type="email" id="forgotEmail" placeholder="Email">
+
+        <div class="password-box">
+            <input type="password" id="forgotPassword" placeholder="New Password">
+            <span onclick="toggleForgotPassword()">👁</span>
+        </div>
+
+        <div class="password-box">
+            <input type="password" id="forgotConfirmPassword" placeholder="Confirm Password">
+            <span onclick="toggleForgotConfirmPassword()">👁</span>
+        </div>
+
+        <button onclick="resetPassword()">Reset Password</button>
+
+        <p class="switch-text">
+            <span onclick="showLogin()">Back to Login</span>
+        </p>
+
+    </div>
+
+    <p id="error"></p>
+
+</div>
 
 <script>
-const downloadVisitorsBtn = document.getElementById('downloadVisitorsBtn');
 
-if (downloadVisitorsBtn) {
-    downloadVisitorsBtn.addEventListener('click', downloadVisitorList);
+/* SWITCH FORMS */
+
+function showRegister(){
+    document.getElementById("loginForm").style.display = "none";
+    document.getElementById("forgotForm").style.display = "none";
+    document.getElementById("registerForm").style.display = "block";
 }
+
+function showLogin(){
+    document.getElementById("registerForm").style.display = "none";
+    document.getElementById("forgotForm").style.display = "none";
+    document.getElementById("loginForm").style.display = "block";
+}
+
+function showForgot(){
+    document.getElementById("loginForm").style.display = "none";
+    document.getElementById("registerForm").style.display = "none";
+    document.getElementById("forgotForm").style.display = "block";
+}
+
+/* REGISTER */
+
+function register(){
+
+    let fullName = document.getElementById("fullName").value;
+    let username = document.getElementById("newUsername").value;
+    let email = document.getElementById("email").value;
+    let password = document.getElementById("newPassword").value;
+    let confirmPassword = document.getElementById("confirmPassword").value;
+
+    if(password !== confirmPassword){
+        return showError("Passwords do not match");
+    }
+
+    let users = JSON.parse(localStorage.getItem("users")) || [];
+
+    if(users.find(u => u.username === username)){
+        return showError("Username already exists");
+    }
+
+    users.push({
+        username,
+        password,
+        email,
+        name: fullName,
+        studentID: "STU-" + Math.floor(Math.random() * 10000),
+        profilePic: ""
+    });
+
+    localStorage.setItem("users", JSON.stringify(users));
+
+    showSuccess("Account created successfully");
+    showLogin();
+}
+
+/* LOGIN */
+
+function login(){
+
+    let username = document.getElementById("loginUsername").value;
+    let password = document.getElementById("loginPassword").value;
+
+    let users = JSON.parse(localStorage.getItem("users")) || [];
+
+    let found = users.find(u =>
+        u.username === username && u.password === password
+    );
+
+    if(!found){
+        return showError("Invalid login details");
+    }
+
+    localStorage.setItem("loggedIn", "true");
+    localStorage.setItem("studentName", found.name);
+    localStorage.setItem("studentID", found.studentID);
+
+    window.location.href = "student-dashboard.html";
+}
+
+/* FORGOT PASSWORD */
+
+function resetPassword(){
+
+    let username = document.getElementById("forgotUsername").value;
+    let email = document.getElementById("forgotEmail").value;
+    let pass = document.getElementById("forgotPassword").value;
+    let confirm = document.getElementById("forgotConfirmPassword").value;
+
+    if(pass !== confirm){
+        return showError("Passwords do not match");
+    }
+
+    let users = JSON.parse(localStorage.getItem("users")) || [];
+
+    let user = users.find(u =>
+        u.username === username && u.email === email
+    );
+
+    if(!user){
+        return showError("User not found");
+    }
+
+    user.password = pass;
+
+    localStorage.setItem("users", JSON.stringify(users));
+
+    showSuccess("Password reset successful");
+    showLogin();
+}
+
+/* ERROR / SUCCESS */
+
+function showError(msg){
+    let e = document.getElementById("error");
+    e.style.color = "red";
+    e.innerText = msg;
+}
+
+function showSuccess(msg){
+    let e = document.getElementById("error");
+    e.style.color = "green";
+    e.innerText = msg;
+}
+
+/* TOGGLES */
+
+function togglePassword(){
+    let p = document.getElementById("loginPassword");
+    p.type = p.type === "password" ? "text" : "password";
+}
+
+function toggleRegisterPassword(){
+    let p = document.getElementById("newPassword");
+    p.type = p.type === "password" ? "text" : "password";
+}
+
+function toggleConfirmPassword(){
+    let p = document.getElementById("confirmPassword");
+    p.type = p.type === "password" ? "text" : "password";
+}
+
+function toggleForgotPassword(){
+    let p = document.getElementById("forgotPassword");
+    p.type = p.type === "password" ? "text" : "password";
+}
+
+function toggleForgotConfirmPassword(){
+    let p = document.getElementById("forgotConfirmPassword");
+    p.type = p.type === "password" ? "text" : "password";
+}
+
 </script>
 
 </body>
