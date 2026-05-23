@@ -1,0 +1,117 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Departments | LUCT Namibia</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+    <!-- NAVBAR -->
+    <header>
+        <nav class="navbar">
+            <div class="logo">LUCT <span>Namibia</span></div>
+            <ul id="navLinks">
+                <li><a href="index.html">Home</a></li>
+                <li><a href="about.html">About Us</a></li>
+                <li><a href="courses.html">Courses</a></li>
+                <li><a href="admissions.html">Admissions</a></li>
+                <li><a href="faculties.html" class="active">Departments</a></li>
+                <li><a href="studentlife.html">Student Life</a></li>
+                <li><a href="news.html">News</a></li>
+                <li><a href="contact.html">Contact Us</a></li>
+                <li><a href="login.html">Login</a></li>
+            </ul>
+            <div class="hamburger" id="hamburger">
+                <span></span><span></span><span></span>
+            </div>
+        </nav>
+    </header>
+
+    <!-- BREAKING NEWS BAR -->
+    <div class="breaking-news-bar">
+        <div class="ticker-label">📢 LATEST</div>
+        <div class="ticker-window">
+            <div class="ticker-track">
+                <span>Applications for 2026 are now open — Apply before 30 June 2026 &nbsp;|&nbsp;</span>
+                <span>New Cyber Security programme launching Semester 2 &nbsp;|&nbsp;</span>
+                <span>LUCT Namibia ranked among top institutions in Southern Africa &nbsp;|&nbsp;</span>
+                <span>Scholarship opportunities available for qualifying students &nbsp;|&nbsp;</span>
+                <span>Applications for 2026 are now open — Apply before 30 June 2026 &nbsp;|&nbsp;</span>
+                <span>New Cyber Security programme launching Semester 2 &nbsp;|&nbsp;</span>
+                <span>LUCT Namibia ranked among top institutions in Southern Africa &nbsp;|&nbsp;</span>
+                <span>Scholarship opportunities available for qualifying students &nbsp;|&nbsp;</span>
+            </div>
+        </div>
+    </div>
+
+    <!-- HERO -->
+    <section class="contact-hero">
+        <p class="contact-eyebrow">Academic Faculties 2026</p>
+        <h1>Departments</h1>
+        <p class="contact-sub">Explore our academic faculties and future career paths.</p>
+    </section>
+
+    <!-- DEPARTMENTS GRID -->
+    <div class="container">
+        <div class="news-grid">
+
+            <div class="dept-card">
+                <h2>Faculty of Business</h2>
+                <p>Business Administration, Marketing, Accounting and Entrepreneurship.</p>
+                <a class="btn" href="business.html">Explore</a>
+            </div>
+
+            <div class="dept-card">
+                <h2>Faculty of Information Technology</h2>
+                <p>Software Engineering, Networking and Cyber Security.</p>
+                <a class="btn" href="it.html">Explore</a>
+            </div>
+
+            <div class="dept-card">
+                <h2>Faculty of Communication</h2>
+                <p>Media Studies and Digital Communication.</p>
+                <a class="btn" href="communication.html">Explore</a>
+            </div>
+
+            <div class="dept-card">
+                <h2>Faculty of Design Innovation</h2>
+                <p>Graphic Design, Multimedia and Animation.</p>
+                <a class="btn" href="design.html">Explore</a>
+            </div>
+
+            <div class="dept-card">
+                <h2>Faculty of Architecture</h2>
+                <p>Architecture and Interior Design.</p>
+                <a class="btn" href="architecture.html">Explore</a>
+            </div>
+
+            <div class="dept-card">
+                <h2>Faculty of Hospitality</h2>
+                <p>Tourism, Hotel and Event Management.</p>
+                <a class="btn" href="hospitality.html">Explore</a>
+            </div>
+
+        </div>
+    </div>
+
+    <!-- FOOTER -->
+    <footer>
+        <p>&copy; 2026 <span>Limkokwing University Namibia</span> — Group Project</p>
+        <p>Windhoek, Namibia &nbsp;|&nbsp; admissions@luct.edu.na &nbsp;|&nbsp; +264 61 000 0000</p>
+    </footer>
+
+    <script src="js/nav.js"></script>
+    <script src="js/admissions.js"></script>
+    <script src="js/login.js"></script>
+    <script>
+        const ham = document.getElementById('hamburger');
+        const nav = document.getElementById('navLinks');
+        if (ham) ham.addEventListener('click', () => nav.classList.toggle('open'));
+    </script>
+
+</body>
+</html>
