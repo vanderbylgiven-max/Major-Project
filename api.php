@@ -70,6 +70,23 @@ elseif ($action === 'resetPassword') {
         echo json_encode(['success' => false, 'message' => 'User not found']);
     }
 }
+/* ── CHANGE PASSWORD ── */
+elseif ($action === 'changePassword') {
+    $studentID = trim($_POST['studentID']);
+    $password  = password_hash($_POST['password'], PASSWORD_DEFAULT);
+
+    $stmt = $conn->prepare(
+        "UPDATE users SET password = ? WHERE student_id = ?"
+    );
+    $stmt->bind_param("ss", $password, $studentID);
+    $stmt->execute();
+
+    if ($stmt->affected_rows > 0) {
+        echo json_encode(['success' => true]);
+    } else {
+        echo json_encode(['success' => false]);
+    }
+}
 
 $conn->close();
 ?>

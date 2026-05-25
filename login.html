@@ -1,12 +1,11 @@
+
 <!DOCTYPE html>
 <html lang="en">
 
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
     <title>Student Portal Login</title>
-
     <link rel="stylesheet" href="styles.css">
 </head>
 
@@ -17,33 +16,21 @@
     <h2>Student Portal</h2>
 
     <!-- ANNOUNCEMENTS -->
-
     <div class="announcement-box">
-
         <h3>Announcements</h3>
-
         <p>📅 Semester Registration Open</p>
         <p>📝 Exams Start 15 June 2026</p>
         <p>📢 Campus WiFi Maintenance Friday</p>
-
     </div>
 
     <!-- LOGIN FORM -->
-
     <div id="loginForm">
 
-        <input type="text"
-        id="loginUsername"
-        placeholder="Username">
+        <input type="text" id="loginUsername" placeholder="Username">
 
         <div class="password-box">
-
-            <input type="password"
-            id="loginPassword"
-            placeholder="Password">
-
+            <input type="password" id="loginPassword" placeholder="Password">
             <span onclick="togglePassword()">👁</span>
-
         </div>
 
         <button onclick="login()">Login</button>
@@ -60,7 +47,6 @@
     </div>
 
     <!-- REGISTER FORM -->
-
     <div id="registerForm" style="display:none;">
 
         <input type="text" id="fullName" placeholder="Full Name">
@@ -89,7 +75,6 @@
     </div>
 
     <!-- FORGOT PASSWORD -->
-
     <div id="forgotForm" style="display:none;">
 
         <input type="text" id="forgotUsername" placeholder="Username">
@@ -117,160 +102,6 @@
 
 </div>
 
-<script>
-
-/* SWITCH FORMS */
-
-function showRegister(){
-    document.getElementById("loginForm").style.display = "none";
-    document.getElementById("forgotForm").style.display = "none";
-    document.getElementById("registerForm").style.display = "block";
-}
-
-function showLogin(){
-    document.getElementById("registerForm").style.display = "none";
-    document.getElementById("forgotForm").style.display = "none";
-    document.getElementById("loginForm").style.display = "block";
-}
-
-function showForgot(){
-    document.getElementById("loginForm").style.display = "none";
-    document.getElementById("registerForm").style.display = "none";
-    document.getElementById("forgotForm").style.display = "block";
-}
-
-/* REGISTER */
-
-function register(){
-
-    let fullName = document.getElementById("fullName").value;
-    let username = document.getElementById("newUsername").value;
-    let email = document.getElementById("email").value;
-    let password = document.getElementById("newPassword").value;
-    let confirmPassword = document.getElementById("confirmPassword").value;
-
-    if(password !== confirmPassword){
-        return showError("Passwords do not match");
-    }
-
-    let users = JSON.parse(localStorage.getItem("users")) || [];
-
-    if(users.find(u => u.username === username)){
-        return showError("Username already exists");
-    }
-
-    users.push({
-        username,
-        password,
-        email,
-        name: fullName,
-        studentID: "STU-" + Math.floor(Math.random() * 10000),
-        profilePic: ""
-    });
-
-    localStorage.setItem("users", JSON.stringify(users));
-
-    showSuccess("Account created successfully");
-    showLogin();
-}
-
-/* LOGIN */
-
-function login(){
-
-    let username = document.getElementById("loginUsername").value;
-    let password = document.getElementById("loginPassword").value;
-
-    let users = JSON.parse(localStorage.getItem("users")) || [];
-
-    let found = users.find(u =>
-        u.username === username && u.password === password
-    );
-
-    if(!found){
-        return showError("Invalid login details");
-    }
-
-    localStorage.setItem("loggedIn", "true");
-    localStorage.setItem("studentName", found.name);
-    localStorage.setItem("studentID", found.studentID);
-
-    window.location.href = "student-dashboard.html";
-}
-
-/* FORGOT PASSWORD */
-
-function resetPassword(){
-
-    let username = document.getElementById("forgotUsername").value;
-    let email = document.getElementById("forgotEmail").value;
-    let pass = document.getElementById("forgotPassword").value;
-    let confirm = document.getElementById("forgotConfirmPassword").value;
-
-    if(pass !== confirm){
-        return showError("Passwords do not match");
-    }
-
-    let users = JSON.parse(localStorage.getItem("users")) || [];
-
-    let user = users.find(u =>
-        u.username === username && u.email === email
-    );
-
-    if(!user){
-        return showError("User not found");
-    }
-
-    user.password = pass;
-
-    localStorage.setItem("users", JSON.stringify(users));
-
-    showSuccess("Password reset successful");
-    showLogin();
-}
-
-/* ERROR / SUCCESS */
-
-function showError(msg){
-    let e = document.getElementById("error");
-    e.style.color = "red";
-    e.innerText = msg;
-}
-
-function showSuccess(msg){
-    let e = document.getElementById("error");
-    e.style.color = "green";
-    e.innerText = msg;
-}
-
-/* TOGGLES */
-
-function togglePassword(){
-    let p = document.getElementById("loginPassword");
-    p.type = p.type === "password" ? "text" : "password";
-}
-
-function toggleRegisterPassword(){
-    let p = document.getElementById("newPassword");
-    p.type = p.type === "password" ? "text" : "password";
-}
-
-function toggleConfirmPassword(){
-    let p = document.getElementById("confirmPassword");
-    p.type = p.type === "password" ? "text" : "password";
-}
-
-function toggleForgotPassword(){
-    let p = document.getElementById("forgotPassword");
-    p.type = p.type === "password" ? "text" : "password";
-}
-
-function toggleForgotConfirmPassword(){
-    let p = document.getElementById("forgotConfirmPassword");
-    p.type = p.type === "password" ? "text" : "password";
-}
-
-</script>
-
+<script src="script.js"></script>
 </body>
 </html>
