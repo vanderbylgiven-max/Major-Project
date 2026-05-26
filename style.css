@@ -1,10 +1,5 @@
+/*google font family link*/
 
-/* =============================================
-   LIMKOKWING UNIVERSITY NAMIBIA — MASTER STYLESHEET
-   Updated: Consistent typography (Syne + DM Sans) across all pages
-   ============================================= */
-
-/* --- 0. FONTS (loaded here so every page gets them via style.css) --- */
 @import url('https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700;1,9..40,300&display=swap');
 
 /* --- 1. RESET --- */
@@ -41,19 +36,25 @@ body {
     min-height: 100vh;
 }
 
-/* All headings use Syne site-wide — no per-page override needed */
+
 h1, h2, h3, h4, h5, h6 {
     font-family: var(--font-display);
     font-weight: 700;
     line-height: 1.2;
 }
 
-/* Body copy always DM Sans */
+.page-heading {
+    color: #ffcc00;
+    font-family: var(--font-display);
+    font-weight: 800;
+    letter-spacing: 0.02em;
+}
+
 p, li, label, input, select, textarea, button, a {
     font-family: var(--font-body);
 }
 
-/* --- 4. BACKGROUND EFFECTS --- */
+
 body::before {
     content: '';
     position: fixed;
@@ -361,6 +362,118 @@ body::after {
 
 .card-content .btn {
     margin-top: 16px;
+}
+
+.more-news-wrap {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 20px;
+    flex-wrap: wrap;
+}
+
+.more-news-info {
+    max-width: 480px;
+}
+
+.more-news-actions {
+    display: flex;
+    align-items: center;
+    gap: 28px;
+    margin-left: auto;
+    flex-wrap: wrap;
+}
+
+.admin-note {
+    position: relative;
+    color: #ffcc00;
+    font-weight: 700;
+    letter-spacing: 0.05em;
+    padding-left: 10px;
+    margin: 0 18px;
+    min-width: 170px;
+}
+
+.admin-note::after {
+    content: '';
+    position: absolute;
+    right: -20px;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 18px;
+    height: 2px;
+    background: #ffcc00;
+}
+
+.admin-note::before {
+    content: '▶';
+    position: absolute;
+    right: -8px;
+    top: 50%;
+    transform: translate(0, -50%);
+    color: #ffcc00;
+    font-size: 0.95rem;
+}
+
+.news-explorer-container {
+    margin-top: 20px;
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 14px;
+    padding: 18px;
+}
+
+.news-message {
+    margin-top: 18px;
+    color: #ffd966;
+    font-size: 0.95rem;
+}
+
+.news-message.success {
+    color: #8ef2a2;
+}
+
+.news-message.error {
+    color: #ff8c8c;
+}
+
+.explorer-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 16px;
+    margin-bottom: 16px;
+}
+
+.explorer-title {
+    font-weight: 700;
+    color: #fff;
+}
+
+.visitor-table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.visitor-table th,
+.visitor-table td {
+    padding: 12px 14px;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+    text-align: left;
+    font-family: var(--font-body);
+    font-size: 0.95rem;
+}
+
+.visitor-table th {
+    color: var(--gold);
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+    font-size: 0.84rem;
+}
+
+.news-explorer-container p {
+    margin: 0;
+    color: #ddd;
 }
 
 /* --- 10. HERO --- */
