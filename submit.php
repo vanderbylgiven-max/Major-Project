@@ -5,28 +5,79 @@ error_reporting(E_ALL);
 
 require 'db.php'; // this defines $conn
 
-if ($_SERVER["REQUEST_METHOD"] === "POST") {
+if ($_SERVER["REQUEST_METHOD"] !== "POST") {
+    header('Location: contact.html');
+    exit;
+}
 
-    // Sanitize inputs
-    $first_name = trim(mysqli_real_escape_string($conn, $_POST['first_name']));
-    $last_name  = trim(mysqli_real_escape_string($conn, $_POST['last_name']));
-    $email      = trim(mysqli_real_escape_string($conn, $_POST['email']));
-    $phone      = trim(mysqli_real_escape_string($conn, $_POST['phone']));
-    $subject    = trim(mysqli_real_escape_string($conn, $_POST['subject']));
-    $message    = trim(mysqli_real_escape_string($conn, $_POST['message']));
+$form_type = $_POST['form_type'] ?? 'contact';
 
-    // Validate
-    if (empty($first_name) || empty($last_name) || empty($email) || empty($message)) {
-        die("All fields are required.");
+function respondJson($payload) {
+    header('Content-Type: application/json');
+    echo json_encode($payload, JSON_UNESCAPED_UNICODE);
+    exit;
+}
+
+if ($form_type === 'application') {
+    $first_name = trim($_POST['first_name'] ?? '');
+    $last_name  = trim($_POST['last_name'] ?? '');
+    $email      = trim($_POST['email'] ?? '');
+    $phone      = trim($_POST['phone'] ?? '');
+    $dob        = trim($_POST['dob'] ?? '');
+    $gender     = trim($_POST['gender'] ?? '');
+    $programme  = trim($_POST['programme'] ?? '');
+    $entry_type = trim($_POST['entry_type'] ?? '');
+    $address    = trim($_POST['address'] ?? '');
+    $motivation = trim($_POST['motivation'] ?? '');
+
+    if (empty($first_name) || empty($last_name) || empty($email) || empty($phone) || empty($dob)
+        || empty($gender) || empty($programme) || empty($entry_type) || empty($address)) {
+        respondJson(['success' => false, 'error' => 'Please complete all required application fields.']);
     }
 
-    // Build SQL
-    $sql = "INSERT INTO contacts (first_name, last_name, email, phone, subject, message)
-            VALUES ('$first_name', '$last_name', '$email', '$phone', '$subject', '$message')";
+    $stmt = $conn->prepare(
+        "INSERT INTO application_db.applications 
+         (first_name, last_name, email, phone, dob, gender, programme, entry_type, address, motivation)
+         VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)"
+    );
 
-    // Run query
-    if ($conn->query($sql) === TRUE) {
-        echo "<div style=\"
+    if (!$stmt) {
+        respondJson(['success' => false, 'error' => 'Database prepare failed: ' . $conn->error]);
+    }
+
+    $stmt->bind_param('ssssssssss', $first_name, $last_name, $email, $phone, $dob, $gender, $programme, $entry_type, $address, $motivation);
+    if ($stmt->execute()) {
+        respondJson(['success' => true]);
+    }
+
+    respondJson(['success' => false, 'error' => $stmt->error]);
+}
+
+// Default: contact form submission
+$first_name = trim(mysqli_real_escape_string($conn, $_POST['first_name'] ?? ''));
+$last_name  = trim(mysqli_real_escape_string($conn, $_POST['last_name'] ?? ''));
+$email      = trim(mysqli_real_escape_string($conn, $_POST['email'] ?? ''));
+$phone      = trim(mysqli_real_escape_string($conn, $_POST['phone'] ?? ''));
+$subject    = trim(mysqli_real_escape_string($conn, $_POST['subject'] ?? ''));
+$message    = trim(mysqli_real_escape_string($conn, $_POST['message'] ?? ''));
+
+if (empty($first_name) || empty($last_name) || empty($email) || empty($message)) {
+    die("All fields are required.");
+}
+
+$stmt = $conn->prepare(
+    "INSERT INTO contacts (first_name, last_name, email, phone, subject, message)
+     VALUES (?, ?, ?, ?, ?, ?)"
+);
+
+if (!$stmt) {
+    die("Prepare failed: " . htmlspecialchars($conn->error));
+}
+
+$stmt->bind_param('ssssss', $first_name, $last_name, $email, $phone, $subject, $message);
+
+if ($stmt->execute()) {
+    echo "<div style=\"
             max-width:800px;
             margin:80px auto;
             padding:40px;
@@ -61,8 +112,8 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
                 transition:0.3s;
             \">Return Home</a>
         </div>";
-    } else {
-        echo "<div style=\"
+} else {
+    echo "<div style=\"
             max-width:800px;
             margin:80px auto;
             padding:40px;
@@ -82,10 +133,10 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
             <p style=\"
                 font-size:1rem;
                 color:#aaaaaa;
-            \">" . htmlspecialchars($conn->error) . "</p>
+            \">" . htmlspecialchars($stmt->error) . "</p>
         </div>";
-    }
-
-    $conn->close();
 }
+
+$stmt->close();
+$conn->close();
 ?>

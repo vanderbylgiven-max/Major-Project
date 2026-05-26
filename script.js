@@ -28,13 +28,53 @@ function submitForm() {
         return;
     }
 
-    const successMsg = document.getElementById('successMsg');
-    successMsg.style.display = 'block';
-    successMsg.scrollIntoView({ behavior: 'smooth', block: 'center' });
+    const submitButton = document.querySelector('.form-actions .btn');
+    if (submitButton) {
+        submitButton.disabled = true;
+        submitButton.textContent = 'Sending...';
+    }
 
-    document.getElementById('appForm').style.opacity = '0.5';
-    document.getElementById('appForm').style.pointerEvents = 'none';
-    document.querySelector('.form-actions').style.display = 'none';
+    const formData = new FormData();
+    formData.append('form_type', 'application');
+    formData.append('first_name', document.getElementById('fname').value.trim());
+    formData.append('last_name', document.getElementById('lname').value.trim());
+    formData.append('email', document.getElementById('email').value.trim());
+    formData.append('phone', document.getElementById('phone').value.trim());
+    formData.append('dob', document.getElementById('dob').value);
+    formData.append('gender', document.getElementById('gender').value);
+    formData.append('programme', document.getElementById('programme').value);
+    formData.append('entry_type', document.getElementById('entry').value);
+    formData.append('address', document.getElementById('address').value.trim());
+    formData.append('motivation', document.getElementById('motivation').value.trim());
+
+    fetch('submit.php', {
+        method: 'POST',
+        body: formData
+    })
+    .then(response => response.json())
+    .then(data => {
+        if (data.success) {
+            const successMsg = document.getElementById('successMsg');
+            successMsg.style.display = 'block';
+            successMsg.scrollIntoView({ behavior: 'smooth', block: 'center' });
+            document.getElementById('appForm').style.opacity = '0.5';
+            document.getElementById('appForm').style.pointerEvents = 'none';
+            document.querySelector('.form-actions').style.display = 'none';
+        } else {
+            alert(data.error || 'There was a problem submitting your application.');
+            if (submitButton) {
+                submitButton.disabled = false;
+                submitButton.textContent = 'Submit Application';
+            }
+        }
+    })
+    .catch(error => {
+        alert('Submission failed: ' + error.message);
+        if (submitButton) {
+            submitButton.disabled = false;
+            submitButton.textContent = 'Submit Application';
+        }
+    });
 }
 
 function resetForm() {
