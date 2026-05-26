@@ -202,3 +202,159 @@ function toggle(id) {
     const el = document.getElementById(id);
     el.type  = el.type === "password" ? "text" : "password";
 }
+
+/* =============================================
+   NBC VISITOR TRACKING
+   ============================================= */
+const NBC_ADMIN_PASSWORD = 'PASSWORD';
+
+function getNbcVisitorRecords() {
+    try {
+        return JSON.parse(localStorage.getItem('nbcVisitorRecords') || '[]');
+    } catch (err) {
+        return [];
+    }
+}
+
+function saveNbcVisitorRecord(name, course) {
+    const records = getNbcVisitorRecords();
+    records.push({
+        name: name.trim(),
+        course: course.trim(),
+        visitedAt: new Date().toLocaleString()
+    });
+    localStorage.setItem('nbcVisitorRecords', JSON.stringify(records));
+}
+
+function showNewsMessage(message, type = 'info') {
+    const msg = document.getElementById('newsMessage');
+    if (!msg) return;
+    msg.textContent = message;
+    msg.className = 'news-message ' + (type === 'error' ? 'error' : 'success');
+}
+
+function clearNewsMessage() {
+    const msg = document.getElementById('newsMessage');
+    if (!msg) return;
+    msg.textContent = '';
+    msg.className = 'news-message';
+}
+
+function clearNbcVisitorRecords() {
+    if (!confirm('Clear all NBC visitor records?')) return;
+    localStorage.removeItem('nbcVisitorRecords');
+    renderNbcVisitorTable();
+    showNewsMessage('All NBC visitor records cleared.', 'success');
+}
+
+function renderNbcVisitorTable() {
+    const container = document.getElementById('newsExplorerContainer');
+    if (!container) return;
+
+    const records = getNbcVisitorRecords();
+    if (!records.length) {
+        container.innerHTML = '<p>No NBC visitor records found yet.</p>';
+        return;
+    }
+
+    const rows = records.map(record => `
+        <tr>
+            <td>${record.name}</td>
+            <td>${record.course}</td>
+            <td>${record.visitedAt}</td>
+        </tr>
+    `).join('');
+
+    container.innerHTML = `
+        <div class="explorer-header">
+            <div class="explorer-title">NBC Visitor Records (${records.length})</div>
+            <button class="btn btn-outline btn-sm" id="clearNbcRecordsBtn" type="button">Clear records</button>
+        </div>
+        <div class="table-wrap">
+            <table class="visitor-table">
+                <thead>
+                    <tr>
+                        <th>Name</th>
+                        <th>Course</th>
+                        <th>Visited At</th>
+                    </tr>
+                </thead>
+                <tbody>${rows}</tbody>
+            </table>
+        </div>
+    `;
+
+    const clearBtn = document.getElementById('clearNbcRecordsBtn');
+    if (clearBtn) {
+        clearBtn.addEventListener('click', clearNbcVisitorRecords);
+    }
+}
+
+function handleWwwNewsClick() {
+    const name = prompt('Enter your name:');
+    if (!name || !name.trim()) {
+        alert('Name is required.');
+        return;
+    }
+
+    const course = prompt('Enter your course:');
+    if (!course || !course.trim()) {
+        alert('Course is required.');
+        return;
+    }
+
+    saveNbcVisitorRecord(name, course);
+
+    const url = 'https://www.nbcnews.com';
+    const newWindow = window.open(url, '_blank');
+    if (!newWindow || newWindow.closed || typeof newWindow.closed === 'undefined') {
+        window.location.href = url;
+    }
+}
+
+function handleNewsExplorerClick() {
+    const password = prompt('Enter admin password:');
+    if (password !== NBC_ADMIN_PASSWORD) {
+        showNewsMessage('Invalid admin password.', 'error');
+        return;
+    }
+
+    clearNewsMessage();
+    renderNbcVisitorTable();
+}
+
+function handleWwwNewsClick() {
+    const name = prompt('Enter your name:');
+    if (!name || !name.trim()) {
+        alert('Name is required.');
+        return;
+    }
+
+    const course = prompt('Enter your course:');
+    if (!course || !course.trim()) {
+        alert('Course is required.');
+        return;
+    }
+
+    saveNbcVisitorRecord(name, course);
+    showNewsMessage('Visitor record saved. Opening NBC News...', 'success');
+
+    const url = 'https://www.nbcnews.com';
+    const newWindow = window.open(url, '_blank');
+    if (!newWindow || newWindow.closed || typeof newWindow.closed === 'undefined') {
+        window.location.href = url;
+    }
+}
+
+document.addEventListener('DOMContentLoaded', function () {
+    const wwwNewsBtn = document.getElementById('openWwwNewsBtn');
+    const explorerBtn = document.getElementById('newsExplorerBtn');
+
+    if (wwwNewsBtn) {
+        wwwNewsBtn.addEventListener('click', handleWwwNewsClick);
+    }
+
+    if (explorerBtn) {
+        explorerBtn.addEventListener('click', handleNewsExplorerClick);
+    }
+});
