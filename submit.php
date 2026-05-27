@@ -41,12 +41,12 @@ if ($form_type === 'application') {
                      'error'   => 'Please complete all required fields.']);
     }
 
-    $stmt = $conn->prepare("
-        INSERT INTO application_submissions
-            (first_name, last_name, email, phone, dob,
-             gender, programme, entry_type, address, motivation)
-        VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
-    ");
+    // Build SQL pointing to the applications table in the application DB
+    $appDb = isset($applicationDb) && $applicationDb ? $applicationDb : 'application_db';
+    $sql = "INSERT INTO `" . $conn->real_escape_string($appDb) . "`.`applications` ";
+    $sql .= "(first_name, last_name, email, phone, dob, gender, programme, entry_type, address, motivation) ";
+    $sql .= "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+    $stmt = $conn->prepare($sql);
 
     if (!$stmt) {
         respondJson(['success' => false,
