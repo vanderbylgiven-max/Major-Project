@@ -5,6 +5,9 @@ error_reporting(E_ALL);
 
 require 'db.php'; // this defines $conn
 
+// Start output buffering to prevent accidental HTML/whitespace from breaking JSON responses
+if (!ob_get_level()) ob_start();
+
 if ($_SERVER["REQUEST_METHOD"] !== "POST") {
     header('Location: contact.html');
     exit;
@@ -13,7 +16,11 @@ if ($_SERVER["REQUEST_METHOD"] !== "POST") {
 $form_type = $_POST['form_type'] ?? 'contact';
 
 function respondJson($payload) {
-    header('Content-Type: application/json');
+    // Clear any buffered output (whitespace, warnings) so the response is valid JSON
+    while (ob_get_level()) {
+        ob_end_clean();
+    }
+    header('Content-Type: application/json; charset=utf-8');
     echo json_encode($payload, JSON_UNESCAPED_UNICODE);
     exit;
 }
