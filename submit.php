@@ -6,6 +6,30 @@ ob_start();
 
 require 'db.php';
 
+// Convert PHP errors to exceptions so they can be handled and returned as JSON
+set_error_handler(function($severity, $message, $file, $line) {
+    throw new ErrorException($message, 0, $severity, $file, $line);
+});
+
+// Ensure uncaught exceptions produce JSON responses
+set_exception_handler(function($e) {
+    while (ob_get_level()) ob_end_clean();
+    header('Content-Type: application/json; charset=utf-8');
+    echo json_encode(['success' => false, 'error' => $e->getMessage()]);
+    exit;
+});
+
+// Catch fatal errors on shutdown and return JSON
+register_shutdown_function(function() {
+    $err = error_get_last();
+    if ($err && in_array($err['type'], [E_ERROR, E_PARSE, E_CORE_ERROR, E_COMPILE_ERROR])) {
+        while (ob_get_level()) ob_end_clean();
+        header('Content-Type: application/json; charset=utf-8');
+        echo json_encode(['success' => false, 'error' => $err['message']]);
+        exit;
+    }
+});
+
 function respondJson($payload) {
     while (ob_get_level()) ob_end_clean();
     header('Content-Type: application/json; charset=utf-8');
